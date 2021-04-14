@@ -1,27 +1,24 @@
 # DondeLoVeo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+Un proyecto OpenSource para buscar películas y series en diferents plataformas.
 
-## Development server
+### Tutorial Crear proyecto Angular desde 0
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+ng new <NombreProyecto>
 
-## Code scaffolding
+pregunta si queremos añadir router y el tipo de estilos (para nuestro proyecto he puesto Si y Sass)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Bueno, pues de este modo tan simple ya tenemos un proyecto nuevo
 
-## Build
+Luego he hecho algunas configuraciones más para darle la estructura que ya es a gusto de cada uno
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Yo he metido en una carpeta (scss) los estilos
+He personalizado en npm start para que use un proxy para que cuando tengamos el back no haya problemas de Cors
+He creado un componente navbar (en la carpeta components)
+He creado una componente home (en la carpeta pages)
+Las paginas (lo que se va a ver en el router), las meto en la capeta pages y los componentes en components
+Cuando creo los componentes elimino los test (archivos spec.ts) y los estilos, y en el archivo ts correspondiente elimino el enlace a esos estilos. También en ese archivo cambio el nombre por defecto que da al componente y el de la etiqueta.
+He modificado el index para incluir el componente navbar y el router
+En el router he puesto que la ruta vacia muestra la página home
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+ si teneis cualquier duda preguntadme.
