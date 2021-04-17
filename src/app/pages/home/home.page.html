@@ -1,58 +1,26 @@
-¿Que quieres ver hoy?
+<div class="text-center p-3">
+	<h3>¿Qué quieres ver hoy?</h3>
+	<input class="btn btn-lg bg-main-color mt-2" name="titulo" id="titulo" type="text"
+		placeholder="Título" required>
+	<button class="btn btn-lg bg-secondary-color mt-2" type="submit">Buscar</button>
+</div>
 
-
-<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Título película</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  <button type="submit" class="btn btn-primary">Buscar</button>
-</form>
-
-
-Películas recomendadas
+<h4>Películas recomendadas</h4>
 <hr>
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col">
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-          to additional content.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-          to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+	<div class="col mb-2" *ngFor="let film of recomendedFilms">
+		<div class="card">
+			<img [src]="film.img" class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">{{film.title}}</h5>
+				<p class="card-text">
+					<b>Director: </b>{{film.director| limitTo: 30}}<br />
+					<b>Guionista: </b>{{film.writer| limitTo: 30}}<br />
+					<b>Reparto: </b>{{film.casting | limitTo: 30}}<br />
+					{{film.synopsis | limitTo: 150}}<br />
+				</p>
+			</div>
+		</div>
+	</div>
 </div>

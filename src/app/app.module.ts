@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomePage } from './pages/home/home.page';
 import { RegisterPage } from './pages/register/register.page';
 import { LoginPage } from './pages/login/login.page';
+import { LimitToPipe } from './pipes/limit-to.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LoginPage } from './pages/login/login.page';
     NavbarComponent,
     HomePage,
     RegisterPage,
-    LoginPage
+    LoginPage,
+    LimitToPipe
   ],
   imports: [
     BrowserModule,

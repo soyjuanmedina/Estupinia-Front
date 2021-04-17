@@ -1,0 +1,21 @@
+$main-color: #8EB4E3;
+$secondary-color: #D81959;
+
+.bg-main-color{
+  background-color: $main-color;
+}
+
+.bg-secondary-color{
+  background-color: $secondary-color;
+  color: whitesmoke
+}
+
+.bor{
+	border: 1px solid $secondary-color;
+}
+
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-weight: bold;
+  color: black;
+}
