@@ -4,7 +4,8 @@ import { FilmService } from '../../services/film.service';
 
 @Component({
   selector: 'home-page',
-  templateUrl: './home.page.html'
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss']
 })
 export class HomePage implements OnInit {
 

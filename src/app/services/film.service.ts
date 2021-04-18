@@ -69,6 +69,15 @@ export class FilmService {
 			synopsis: "Tras la muerte de sus padres, Peter Parker, un tímido estudiante, vive con su tía May y su tío Ben. Precisamente debido a su retraimiento no es un chico muy popular en el instituto. Un día le muerde una araña que ha sido modificada genéticamente; a la mañana siguiente, descubre estupefacto que posee la fuerza y la agilidad de ese insecto. Las aventuras del hombre araña se basan en el famoso cómic de Stan Lee y Steve Ditko."
 		}
 	]
+
+	demoStreamingServices = [
+		{
+			name: "Netflix"
+		},
+		{
+			name: "Amazon"
+		}
+	]
 	user: Film;
 	error: string;
 
@@ -87,5 +96,9 @@ export class FilmService {
 				this.error = err.error.message;
 			}
 		);; */
+	}
+
+	getStreamingServices() {
+		return this.demoStreamingServices;
 	}
 }
