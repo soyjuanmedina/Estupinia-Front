@@ -13,7 +13,6 @@ export class HomePage implements OnInit {
 
   constructor(public _filmService: FilmService) {
     this.recomendedFilms = this._filmService.getRecomendedFilms();
-    console.log('recomendedFilms', this.recomendedFilms);
   }
 
   ngOnInit(): void {
