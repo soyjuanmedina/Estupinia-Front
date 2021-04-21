@@ -18,32 +18,15 @@ export class UserService {
   error: string;
 
   constructor(private http: HttpClient) {
-    if (typeof sessionStorage.getItem('auth-user') !== 'undefined') {
-      this.user = JSON.parse(sessionStorage.getItem('auth-user'));
+    if (typeof sessionStorage.getItem('dlv-user') !== 'undefined') {
+      this.user = JSON.parse(sessionStorage.getItem('dlv-user'));
     }
   }
 
-  getUser() {
-    return this.http.post('/user/get', "").subscribe(
-      data => {
-        this.user = data as User;
-        window.sessionStorage.removeItem(USER_KEY);
-        window.sessionStorage.setItem(USER_KEY, JSON.stringify(this.user));
-      },
-      err => {
-        this.error = err.error.message;
-      }
-    );;
+  saveUser(user): void {
+    this.user = user;
+    window.sessionStorage.removeItem('dlv-user');
+    window.sessionStorage.setItem('dlv-user', JSON.stringify(user));
   }
 
-  saveUser(user: User) {
-    return this.http.post('/user/save', user).subscribe(
-      data => {
-        this.user = data as User;
-      },
-      err => {
-        console.log(err.error.message);
-      }
-    );
-  }
 }

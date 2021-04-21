@@ -13,6 +13,8 @@ const USER_KEY = 'auth-user';
 
 export class FilmService {
 
+  streamingServices;
+
   demoFilms = [
     {
       title: "Iron Man",
@@ -84,6 +86,7 @@ export class FilmService {
   error: string;
 
   constructor(private http: HttpClient) {
+    this.getStreamingServices();
   }
 
   getRecomendedFilms() {
@@ -101,6 +104,6 @@ export class FilmService {
   }
 
   getStreamingServices() {
-    return this.demoStreamingServices;
+    this.streamingServices = this.demoStreamingServices;
   }
 }

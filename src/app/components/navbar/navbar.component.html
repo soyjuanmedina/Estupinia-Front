@@ -1,8 +1,17 @@
 <nav class="navbar navbar-secondary p-3 bg-main-color">
-	<img src="./assets/img/DLV_logo.png" alt="Donde lo veo" width="100" [routerLink]="['/']">
-	<div>
-		<button class="btn bg-secondary-color m-2" [routerLink]="['/login']">Login</button>
-		<button class="btn bg-secondary-color m-2" [routerLink]="['/register']">Registro</button>
-	</div>
+  <img src="./assets/img/DLV_logo.png" alt="Donde lo veo" width="100" [routerLink]="['/']">
+  <div>
+    <div *ngIf="!_userService.user">
+      <button class="btn bg-secondary-color m-2" [routerLink]="['/login']">Login</button>
+      <button class="btn bg-secondary-color m-2" [routerLink]="['/register']">Registro</button>
+    </div>
+    <div *ngIf="_userService.user">
+      <button class="btn bg-secondary-color m-2" [routerLink]="['/profile']"><i
+          class="fas fa-id-card-alt me-1"></i>{{_userService.user.name}}
+        {{_userService.user.surname}}</button>
+      <button class="btn bg-secondary-color m-2" (click)="logout()"
+        [routerLink]="['/']">Logout</button>
+    </div>
+  </div>
 
 </nav>

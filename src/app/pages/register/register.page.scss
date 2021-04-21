@@ -1,53 +1,5 @@
 @import '../../../scss/styles.scss';
 
-.card {
-    border: none;
-    padding: 20px;
-    background-color: $main-color;
-    color: #fff
-}
-
-.form-input {
-    position: relative;
-    margin-bottom: 10px;
-    margin-top: 10px
-}
-
-.form-input i {
-    position: absolute;
-    font-size: 18px;
-    top: 15px;
-    left: 10px
-}
-
-.form-control {
-    height: 50px;
-    background-color: $main-color;
-    text-indent: 24px;
-    font-size: 15px;
-    border: 1px solid white
-}
-
-.form-control:focus {
-    background-color: whitesmoke;
-    box-shadow: none;
-}
-
-.fa-grey{
-    color: #666;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.btn-xs
-{
-    padding: 1px 5px !important;
-    font-size: 12px !important;
-    line-height: 1.5 !important;
-    border-radius: 3px !important;
-}
 
 .streamingServices {
 background-color: $main-color;

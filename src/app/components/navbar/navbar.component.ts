@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService, public _userService: UserService) { }
 
   logout() {
+    this.authService.logout();
   }
 
   openRegisterModal() {

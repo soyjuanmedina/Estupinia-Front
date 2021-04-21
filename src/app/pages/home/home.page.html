@@ -1,26 +1,30 @@
 <div class="text-center p-3">
-	<h3>¿Qué quieres ver hoy?</h3>
-	<input class="btn btn-lg bg-main-color mt-2" name="titulo" id="titulo" type="text"
-		placeholder="Título" required>
-	<button class="btn btn-lg bg-secondary-color mt-2" type="submit">Buscar</button>
+
+  <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
+    puedes
+    buscar en todas tus plataformas y acceder directamente a ellas para ver lo que te interese.</h6>
+  <h3>¿Qué quieres ver hoy?</h3>
+  <input class="btn btn-lg bg-main-color mt-2" name="titulo" id="titulo" type="text"
+    placeholder="Título" required>
+  <button class="btn btn-lg bg-secondary-color mt-2" type="submit">Buscar</button>
 </div>
 
 <h4>Películas recomendadas</h4>
 <hr>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-	<div class="col mb-2" *ngFor="let film of recomendedFilms">
-		<div class="card">
-			<img [src]="film.img" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">{{film.title}}</h5>
-				<p class="card-text">
-					<b>Director: </b>{{film.director| limitTo: 30}}<br />
-					<b>Guionista: </b>{{film.writer| limitTo: 30}}<br />
-					<b>Reparto: </b>{{film.casting | limitTo: 30}}<br />
-					{{film.synopsis | limitTo: 150}}<br />
-				</p>
-			</div>
-		</div>
-	</div>
+  <div class="col mb-2" *ngFor="let film of recomendedFilms">
+    <div class="card">
+      <img [src]="film.img" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{film.title}}</h5>
+        <p class="card-text">
+          <b>Director: </b>{{film.director| limitTo: 30}}<br />
+          <b>Guionista: </b>{{film.writer| limitTo: 30}}<br />
+          <b>Reparto: </b>{{film.casting | limitTo: 30}}<br />
+          {{film.synopsis | limitTo: 150}}<br />
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
