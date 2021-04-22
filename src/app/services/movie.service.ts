@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Film } from '../interfaces/film';
+import { Movie } from '../interfaces/movie';
+import { StreamingService } from '../interfaces/streamingService';
 /* import { ProjectService } from './project.service';
 import { Project } from '../interfaces/project'; */
 
@@ -11,11 +12,11 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 
-export class FilmService {
+export class MovieService {
 
   streamingServices;
 
-  demoFilms = [
+  demoMovies: Array<Movie> = [
     {
       title: "Iron Man",
       id: 1,
@@ -72,7 +73,7 @@ export class FilmService {
     }
   ]
 
-  demoStreamingServices = [
+  demoStreamingServices: Array<StreamingService> = [
     {
       id: 1,
       name: "Netflix"
@@ -82,15 +83,14 @@ export class FilmService {
       name: "Amazon"
     }
   ]
-  user: Film;
   error: string;
 
   constructor(private http: HttpClient) {
     this.getStreamingServices();
   }
 
-  getRecomendedFilms() {
-    return this.demoFilms;
+  getRecomendedMovies() {
+    return this.demoMovies;
     /* return this.http.post('/films/getRecomendations', "").subscribe(
       data => {
         this.user = data as Film;

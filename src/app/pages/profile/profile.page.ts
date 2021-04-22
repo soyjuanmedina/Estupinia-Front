@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StreamingService } from '../../interfaces/streamingService';
 import { User } from '../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
-import { FilmService } from '../../services/film.service';
+import { MovieService } from '../../services/movie.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
 
@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
   }, { validators: this.checkPasswords });
 
 
-  constructor(public _filmService: FilmService, public _authService: AuthService,
+  constructor(public _movieService: MovieService, public _authService: AuthService,
     public _utilitiesService: UtilitiesService, public _userService: UserService) {
     this.editedUser = Object.assign({}, this._userService.user);
     this.editedUser.confirmPassword = '';

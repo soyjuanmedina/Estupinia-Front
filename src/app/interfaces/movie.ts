@@ -1,4 +1,4 @@
-export interface Film {
+export interface Movie {
   title?: string;
   id: number;
   director?: Array<string>;

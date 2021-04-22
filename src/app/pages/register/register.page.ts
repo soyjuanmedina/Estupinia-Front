@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FilmService } from '../../services/film.service';
+import { MovieService } from '../../services/movie.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StreamingService } from '../../interfaces/streamingService';
 import { AuthService } from '../../services/auth.service';
@@ -32,7 +32,7 @@ export class RegisterPage implements OnInit {
   userStreamingServices: Array<StreamingService> = [];
 
 
-  constructor(public _filmService: FilmService, public _authService: AuthService,
+  constructor(public _movieService: MovieService, public _authService: AuthService,
     public _utilitiesService: UtilitiesService) {
     this._utilitiesService.clearAlerts();
   }
