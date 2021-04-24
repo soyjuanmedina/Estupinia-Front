@@ -1,10 +1,10 @@
 {
-  "name": "donde-lo-veo",
+  "name": "columns",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "build": "ng build --prod --base-href=/DondeLoVeo-Front/",
+    "build": "ng build --prod --base-href=/Columns-Front/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

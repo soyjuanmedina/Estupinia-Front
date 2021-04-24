@@ -1,0 +1,19 @@
+<div class="card mb-3 mt-2 p-1" *ngIf="article">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <p class="card-text"><small class="text-muted">Publicado en {{article.media}}</small> | <small
+          class="text-muted">{{article.date}}</small></p>
+      <img class="card-img" [src]="article.img">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <div class="fw-bold">{{article.epigraph}}</div>
+        <h1 class="card-title">{{article.title}}</h1>
+        <h6 class="fw-lighter fst-italic">{{article.excrept}}</h6>
+        <p class="fw-bold">{{article.writer}}</p>
+        <div [innerHTML]="article.content"></div>
+
+      </div>
+    </div>
+  </div>
+</div>

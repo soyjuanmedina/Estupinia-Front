@@ -52,29 +52,6 @@
 
         </form>
 
-
-        <div class="row">
-          <div class="col-8">
-            <h6>Plataformas</h6>
-          </div>
-          <div class="col-4">
-            <div class="d-flex justify-content-end">
-              <button class="btn-xs btn bg-secondary-color" data-bs-toggle="modal"
-                data-bs-target="#addStreamingServiceModal">
-                Editar plataformas
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-input" data-bs-toggle="modal" data-bs-target="#addStreamingServiceModal">
-          <h4 class="streamingServices p-2">
-            <span class="badge rounded-pill bg-secondary-color m-1"
-              *ngFor="let streamingService of userStreamingServices">
-              {{streamingService.name}}
-            </span>
-          </h4>
-        </div>
         <button class="btn bg-secondary-color mt-2" (click)="register()"
           [disabled]="newUserForm.invalid">Registrarse</button>
         <div class="text-center mt-2">
@@ -85,50 +62,3 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- Add StreamingService Modal -->
-<div class="modal fade" data-backdrop="static" data-keyboard="false" data-backdrop="static"
-  data-keyboard="false" id="addStreamingServiceModal" tabindex="-1" role="dialog"
-  aria-labelledby="addStreamingServiceModal" aria-hidden="true">
-  <div class="modal-dialog  modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header btn-main-color">
-        <h5 class="modal-title" id="addStreamingServiceModal">Plataformas disponibles</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-        </button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="form-input">
-          <h4 class="streamingServices p-2">
-            <span class="badge rounded-pill bg-secondary-color m-1 pointer"
-              *ngFor="let streamingService of _movieService.streamingServices"
-              (click)="addStreamingService(streamingService)">
-              {{streamingService.name}}&nbsp;<span class="fa fa-hand-pointer"></span>
-            </span>
-          </h4>
-        </div>
-        <hr>
-        <h6>Plataformas seleccionadas</h6>
-        <h4 class="streamingServices p-2" *ngIf="userStreamingServices.length">
-          <span class="badge rounded-pill bg-secondary-color m-1"
-            *ngFor="let streamingService of userStreamingServices"
-            (click)="addStreamingService(streamingService)">
-            {{streamingService.name}}&nbsp;<span class="fa fa-times pointer"
-              (click)="removeStreamingServices(streamingService)"></span>
-          </span>
-        </h4>
-        <div class="d-flex justify-content-end">
-          <button class="btn btn bg-secondary-color" data-bs-toggle="modal"
-            data-bs-target="#addStreamingServiceModal">
-            Listo
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- </div> -->

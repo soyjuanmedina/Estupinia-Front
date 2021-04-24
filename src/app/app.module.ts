@@ -12,6 +12,7 @@ import { RegisterPage } from './pages/register/register.page';
 import { LoginPage } from './pages/login/login.page';
 import { LimitToPipe } from './pipes/limit-to.pipe';
 import { ProfilePage } from './pages/profile/profile.page';
+import { ArticlePage } from './pages/article/article.page';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProfilePage } from './pages/profile/profile.page';
     RegisterPage,
     LoginPage,
     LimitToPipe,
-    ProfilePage
+    ProfilePage,
+    ArticlePage
   ],
   imports: [
     BrowserModule,

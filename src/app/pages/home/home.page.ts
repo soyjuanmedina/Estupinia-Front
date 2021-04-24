@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '../../interfaces/movie';
-import { MovieService } from '../../services/movie.service';
+import { Article } from '../../interfaces/article';
+import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -10,10 +10,10 @@ import { UserService } from '../../services/user.service';
 })
 export class HomePage implements OnInit {
 
-  recomendedMovies: Array<Movie>;
+  recomendedArticles: Array<Article>;
 
-  constructor(public _movieService: MovieService, public _userService: UserService) {
-    this.recomendedMovies = this._movieService.getRecomendedMovies();
+  constructor(public _articleService: ArticleService, public _userService: UserService) {
+    this.recomendedArticles = this._articleService.getRecomendedArticles();
   }
 
   ngOnInit(): void {

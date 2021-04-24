@@ -1,5 +1,9 @@
-$main-color: #8EB4E3;
-$secondary-color: #D81959;
+$main-color: #3E320C;
+$secondary-color: #AC8400;
+
+body{
+  background-color: #ddd;
+}
 
 .bg-main-color{
   background-color: $main-color;
@@ -35,7 +39,6 @@ $secondary-color: #D81959;
 
 .form-control {
     height: 50px;
-    background-color: $main-color;
     text-indent: 24px;
     font-size: 15px;
     border: 1px solid white

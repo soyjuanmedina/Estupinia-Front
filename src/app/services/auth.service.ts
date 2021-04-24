@@ -21,16 +21,7 @@ export class AuthService {
     email: "user@user.com",
     name: "Juan",
     surname: "Español",
-    streamingServices: [
-      {
-        id: 1,
-        name: "Netflix"
-      },
-      {
-        id: 2,
-        name: "Amazon"
-      }
-    ]
+    subscription: "Free"
   }
 
   constructor(private http: HttpClient, private _userService: UserService, private router: Router,

@@ -1,30 +1,33 @@
 <div class="text-center p-3">
 
   <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
-    puedes
-    buscar en todas tus plataformas y acceder directamente a ellas para ver lo que te interese.</h6>
-  <h3>¿Qué quieres ver hoy?</h3>
-  <input class="btn btn-lg bg-main-color mt-2" name="titulo" id="titulo" type="text"
-    placeholder="Título" required>
-  <button class="btn btn-lg bg-secondary-color mt-2" type="submit">Buscar</button>
-</div>
+    puedes leer todos los artículos que los diferentes medios ofrecen de modo gratuito, y a los
+    columnistas incluidos en tu suscripción.</h6>
 
-<h4>Películas recomendadas</h4>
-<hr>
+  <h4 *ngIf="!_userService.user">Registrate para acceder a nuestra selección de artículos</h4>
+  <hr>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-  <div class="col mb-2" *ngFor="let movie of recomendedMovies">
-    <div class="card">
-      <img [src]="movie.img" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{movie.title}}</h5>
-        <p class="card-text">
-          <b>Director: </b>{{movie.director| limitTo: 30}}<br />
-          <b>Guionista: </b>{{movie.writer| limitTo: 30}}<br />
-          <b>Reparto: </b>{{movie.casting | limitTo: 30}}<br />
-          {{movie.synopsis | limitTo: 150}}<br />
-        </p>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+    <div class="col mb-2" *ngFor="let article of recomendedArticles">
+      <div class="card">
+        <img [routerLink]="_userService.user ? ['/article', article.id] : []" [src]="article.img"
+          class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{article.title}}</h5>
+          <p class="card-text">
+            <b>Autor: </b>{{article.writer}}<br />
+            <b>Medio: </b>{{article.media}}<br />
+            <b>Fecha: </b>{{article.date}}<br />
+            {{article.excrept | limitTo: 150}}<br />
+          </p>
+        </div>
+        <div *ngIf="!_userService.user">
+          <button class="btn btn-xs bg-secondary-color m-2" [routerLink]="['/login']">Login</button>
+          <button class="btn btn-xs bg-secondary-color m-2"
+            [routerLink]="['/register']">Registro</button>
+        </div>
+        <button *ngIf="_userService.user" class="btn bg-secondary-color m-2"
+          [routerLink]="['/article', article.id]">Leer</button>
       </div>
     </div>
   </div>
-</div>
