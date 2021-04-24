@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UtilitiesService } from '../../services/utilities.service';
 import { User } from '../../interfaces/user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'registe-page',
@@ -25,14 +26,25 @@ export class RegisterPage implements OnInit {
       Validators.required])
   });
 
-  constructor(public _authService: AuthService,
+  constructor(public _authService: AuthService, public _userService: UserService,
     public _utilitiesService: UtilitiesService) {
     this._utilitiesService.clearAlerts();
   }
 
   register() {
     this._utilitiesService.clearAlerts();
-    this._authService.register(this.newUserForm.value);
+    // this._authService.register(this.newUserForm.value);
+    this._utilitiesService.loading = true;
+    this._authService.register(this.newUserForm.value).subscribe(
+      data => {
+        this._utilitiesService.alertSuccess = "Gracias por registrate en Donde lo veo. Ahora ya puedes hacer login"
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error. Prueba a registrarte con usuario: user@user.com y password 12345"
+        this._utilitiesService.loading = false;
+      }
+    );
   }
 
   ngOnInit(): void {

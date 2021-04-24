@@ -9,6 +9,7 @@ export class UtilitiesService {
 
   alertSuccess: string;
   alertError: string;
+  loading: boolean;
 
   constructor() {
   }
@@ -16,6 +17,7 @@ export class UtilitiesService {
   clearAlerts() {
     delete this.alertSuccess;
     delete this.alertError;
+    this.loading = false;
   }
 
 }

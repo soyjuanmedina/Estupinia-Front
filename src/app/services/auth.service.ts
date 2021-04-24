@@ -5,8 +5,7 @@ import { User } from '../interfaces/user';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { UtilitiesService } from './utilities.service';
-
-const AUTH_CONTROLLER = '/auth/';
+import { environment } from "../../environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -32,13 +31,7 @@ export class AuthService {
   } */
 
   login(credentials) {
-    this._utilitiesService.clearAlerts();
-    if (credentials.email == "user@user.com" && credentials.password == "12345") {
-      this._userService.saveUser(this.user);
-      this.router.navigateByUrl('/');
-    } else {
-      this._utilitiesService.alertError = "El usuario no existe. Prueba a loguearte con usuario: user@user.com y password 12345"
-    }
+    return this.http.post(environment.baseUrl + 'auth/login', credentials, httpOptions);
   }
 
 
@@ -50,11 +43,7 @@ export class AuthService {
   }
 
   register(user) {
-    if (user.email == "user@user.com" && user.password == "12345") {
-      this._utilitiesService.alertSuccess = "Gracias por registrate en Donde lo veo. Ahora ya puedes hacer login"
-    } else {
-      this._utilitiesService.alertError = "Se ha producido un error. Prueba a registrarte con usuario: user@user.com y password 12345"
-    }
-    // return this.http.post(AUTH_CONTROLLER + 'register', user, httpOptions);
+    console.log('user', user);
+    return this.http.post(environment.baseUrl + 'auth/register', user, httpOptions);
   }
 }

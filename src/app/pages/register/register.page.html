@@ -6,6 +6,10 @@
   {{_utilitiesService.alertError}}
 </div>
 
+<div class="spinner-grow" role="status" *ngIf="_utilitiesService.loading">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
 <div class="container mt-2 mb-2">
   <div class="row d-flex align-items-center justify-content-center">
     <div class="col-md-12">
