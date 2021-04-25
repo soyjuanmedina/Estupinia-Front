@@ -9,22 +9,20 @@
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
     <div class="col mb-2" *ngFor="let article of recomendedArticles">
-      <div class="card">
+      <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
         <img [routerLink]="_userService.user ? ['/article', article.id] : []" [src]="article.img"
           class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{article.title}}</h5>
-          <p class="card-text">
-            <b>Autor: </b>{{article.writer}}<br />
-            <b>Medio: </b>{{article.media}}<br />
-            <b>Fecha: </b>{{article.date}}<br />
-            {{article.excrept | limitTo: 150}}<br />
-          </p>
+
+          <span *ngIf="article.writer"><b>Autor: </b>{{article.writer}}<br /></span>
+          <span *ngIf="article.media"><b>Medio: </b>{{article.media}}<br /></span>
+          <b>Fecha: </b>{{article.date}}<br />
+          <div> {{article.excrept | limitTo: 150}}</div>
         </div>
-        <div *ngIf="!_userService.user">
-          <button class="btn btn-xs bg-secondary-color m-2" [routerLink]="['/login']">Login</button>
-          <button class="btn btn-xs bg-secondary-color m-2"
-            [routerLink]="['/register']">Registro</button>
+        <div *ngIf="!_userService.user" class="bg-secondary-color">
+          <button class="btn btn-xs bg-light m-2" [routerLink]="['/login']">Login</button>
+          <button class="btn btn-xs bg-light m-2" [routerLink]="['/register']">Registro</button>
         </div>
         <button *ngIf="_userService.user" class="btn bg-secondary-color m-2"
           [routerLink]="['/article', article.id]">Leer</button>

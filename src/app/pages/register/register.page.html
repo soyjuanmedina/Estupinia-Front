@@ -2,8 +2,16 @@
   {{_utilitiesService.alertSuccess}}
 </div>
 
-<div class="alert alert-danger mt-2" *ngIf="_utilitiesService.alertError" role="alert">
-  {{_utilitiesService.alertError}}
+<div class="text-center mt-2" *ngIf="_utilitiesService.loading">
+  <div class="spinner-grow spinner-grow-sm bg-secondary-color" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <div class="spinner-grow spinner-grow-sm bg-secondary-color" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <div class="spinner-grow spinner-grow-sm bg-secondary-color" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
 </div>
 
 <div class="spinner-grow" role="status" *ngIf="_utilitiesService.loading">

@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UtilitiesService } from './utilities.service';
 import { User } from '../interfaces/user';
-/* import { ProjectService } from './project.service';
-import { Project } from '../interfaces/project'; */
-
-const USER_CONTROLLER = '/user/';
-const USER_KEY = 'auth-user';
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +25,8 @@ export class UserService {
     window.sessionStorage.setItem('columns-user', JSON.stringify(user));
   }
 
-  public saveToken(token: string): void {
-    window.sessionStorage.removeItem('columns-token');
-    window.sessionStorage.setItem('columns-token', token);
-  }
-
   getUser() {
-    return this.http.post(USER_CONTROLLER + 'get', "").subscribe(
+    return this.http.post(environment.baseUrl + 'user/get', "").subscribe(
       data => {
         this.user = data as User;
         window.sessionStorage.removeItem('columns-user');
@@ -45,6 +36,15 @@ export class UserService {
         this._utilitiesService.alertError = err.error.message;
       }
     );;
+  }
+
+  public saveToken(token: string): void {
+    window.sessionStorage.removeItem('columns-token');
+    window.sessionStorage.setItem('columns-token', token);
+  }
+
+  public getToken(): string {
+    return sessionStorage.getItem('columns-token');
   }
 
 }

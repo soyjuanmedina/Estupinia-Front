@@ -37,7 +37,7 @@ export class RegisterPage implements OnInit {
     this._utilitiesService.loading = true;
     this._authService.register(this.newUserForm.value).subscribe(
       data => {
-        this._utilitiesService.alertSuccess = "Gracias por registrate en Donde lo veo. Ahora ya puedes hacer login"
+        this._utilitiesService.alertSuccess = "Gracias por registrate en Coolumns. Ahora ya puedes hacer login"
         this._utilitiesService.loading = false;
       },
       err => {
