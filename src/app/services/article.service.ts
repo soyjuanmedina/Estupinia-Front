@@ -1,3 +1,4 @@
+import { environment } from "../../environments/environment";
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Article } from '../interfaces/article';
@@ -58,16 +59,6 @@ export class ArticleService {
   }
 
   getRecomendedArticles() {
-    return this.demoArticles;
-    /* return this.http.post('/films/getRecomendations', "").subscribe(
-      data => {
-        this.user = data as Film;
-        window.sessionStorage.removeItem(USER_KEY);
-        window.sessionStorage.setItem(USER_KEY, JSON.stringify(this.user));
-      },
-      err => {
-        this.error = err.error.message;
-      }
-    );; */
+    return this.http.post(environment.baseUrl + 'article/recomended', "");
   }
 }

@@ -41,7 +41,7 @@ export class LoginPage implements OnInit {
       },
       err => {
         console.log('err', err)
-        this._utilitiesService.alertError = "El usuario no existe";
+        this._utilitiesService.alertError = "Error de autenticación";
         this._utilitiesService.loading = false;
       }
     );

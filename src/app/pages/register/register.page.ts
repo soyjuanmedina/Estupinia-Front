@@ -41,7 +41,7 @@ export class RegisterPage implements OnInit {
         this._utilitiesService.loading = false;
       },
       err => {
-        this._utilitiesService.alertError = "Se ha producido un error. Prueba a registrarte con usuario: user@user.com y password 12345"
+        this._utilitiesService.alertError = "Se ha producido un error al procesar el registro. Prueba a hacerlo en unos minutos"
         this._utilitiesService.loading = false;
       }
     );
