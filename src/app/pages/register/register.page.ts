@@ -41,7 +41,7 @@ export class RegisterPage implements OnInit {
         this._utilitiesService.loading = false;
       },
       err => {
-        this._utilitiesService.alertError = "Se ha producido un error al procesar el registro. Prueba a hacerlo en unos minutos"
+        this._utilitiesService.alertError = err.error.message || "Se ha producido un error al procesar el registro. Prueba a hacerlo en unos minutos"
         this._utilitiesService.loading = false;
       }
     );

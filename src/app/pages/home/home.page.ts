@@ -22,7 +22,6 @@ export class HomePage implements OnInit {
     this._utilitiesService.loading = true;
     this._articleService.getRecomendedArticles().subscribe(
       data => {
-        console.log('en home', data);
         let response = data as any;
         // this.recomendedArticles = response;
         this.recomendedArticles = this._articleService.demoArticles;

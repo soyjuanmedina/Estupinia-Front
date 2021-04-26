@@ -33,16 +33,12 @@ export class AuthService {
     return this.http.post(environment.baseUrl + 'auth/login', credentials, httpOptions);
   }
 
-
-
-
   logout(): void {
     delete this._userService.user;
     sessionStorage.clear();
   }
 
   register(user) {
-    console.log('user', user);
     return this.http.post(environment.baseUrl + 'auth/register', user, httpOptions);
   }
 }
