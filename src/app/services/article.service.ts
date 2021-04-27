@@ -12,6 +12,8 @@ const USER_KEY = 'auth-user';
 
 export class ArticleService {
 
+  articles: Array<Article>
+
   demoArticles: Array<Article> = [
     {
       title: "Macron, el elitismo y la gente corriente",
@@ -55,7 +57,7 @@ export class ArticleService {
   }
 
   getArticle(id) {
-    return this.demoArticles.find(article => article.id == id)
+    return this.articles.find(article => article.id == id)
   }
 
   getRecomendedArticles() {
