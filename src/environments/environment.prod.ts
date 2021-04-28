@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: "/aotro"
+  baseUrl: "https://coolumns.herokuapp.com/"
 };
