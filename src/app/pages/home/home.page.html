@@ -30,7 +30,7 @@
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
     <div class="col mb-2" *ngFor="let article of _articleService.articles"
-      (click)="showArticle(article.id)">
+      (click)="showArticle(article)">
       <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
         <img [src]="article.img" class="card-img-top">
         <div class="card-body">
@@ -53,7 +53,7 @@
 
 
 
-  <!-- Modal -->
+  <!-- identifyModal -->
   <div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -74,6 +74,44 @@
             [routerLink]="['/register']">Registro</button>
 
           <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- premiumModal -->
+  <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" *ngIf="_userService.user">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="premiumModalLabel">Artículo Premium</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="_userService.user.premium_remain > 0">
+          <h6>Te quedan {{_userService.user.premium_remain}} articulos premium. Confirma para leer
+          </h6>
+          <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
+            {{selectedArticle?.writer}}</h4>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            (click)="confirmReadPremium()">Confirmar</button>
+          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+
+        <div class="modal-body" *ngIf="_userService.user.premium_remain <= 0">
+          <h6>No te quedan articulos premium. ¿Quieres comprar accesos?
+          </h6>
+          <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
+            {{selectedArticle?.writer}}</h4>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            (click)="buyAccess()">Confirmar</button>
+          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+
+        <div>
+
         </div>
       </div>
     </div>

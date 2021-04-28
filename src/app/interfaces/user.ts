@@ -5,4 +5,5 @@ export interface User {
   surname?: string;
   password?: string;
   subscription?: string;
+  premium_remain?: number;
 }

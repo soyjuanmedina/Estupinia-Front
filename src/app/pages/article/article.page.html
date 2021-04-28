@@ -1,4 +1,11 @@
 <div class="card mb-3 mt-2 p-1" *ngIf="article">
+
+  <div class="d-flex justify-content-start m-2">
+    <h4 [routerLink]="['/']">
+      <i class="fas fa-arrow-circle-left"></i> Volver a la home
+    </h4>
+  </div>
+
   <div class="row g-0">
     <div class="col-md-4">
       <p class="card-text"><small class="text-muted">Publicado en {{article.media}}</small> | <small

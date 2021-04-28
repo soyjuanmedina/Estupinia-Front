@@ -14,6 +14,7 @@ import { LoginPage } from './pages/login/login.page';
 import { LimitToPipe } from './pipes/limit-to.pipe';
 import { ProfilePage } from './pages/profile/profile.page';
 import { ArticlePage } from './pages/article/article.page';
+import { PaymentGatewayPage } from './pages/payment-gateway/payment-gateway.page';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ArticlePage } from './pages/article/article.page';
     LoginPage,
     LimitToPipe,
     ProfilePage,
-    ArticlePage
+    ArticlePage,
+    PaymentGatewayPage
   ],
   imports: [
     BrowserModule,

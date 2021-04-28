@@ -2,6 +2,7 @@ import { environment } from "../../environments/environment";
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Article } from '../interfaces/article';
+import { UtilitiesService } from "./utilities.service";
 
 const USER_CONTROLLER = '/user/';
 const USER_KEY = 'auth-user';
@@ -40,27 +41,37 @@ export class ArticleService {
       premium: false
     },
     {
-      title: "La noche de los nómadas",
+      title: "Recuperación",
       id: 3,
-      media: "El Periódico",
+      media: "El País",
       writer: "",
-      date: "25-04-2021",
-      img: "https://estaticos-cdn.elperiodico.com/clip/0711ab5f-ec8e-40c1-8efb-dc6bb20e5fa8_media-libre-aspect-ratio_default_0.jpg",
-      epigraph: "",
-      excrept: "Artículo 731. Una amiga mía estuvo el año pasado en los Oscar, los Bafta y los Globos de Oro. Estaba nominada como productora y comenta que lo que vivió fue único e inolvidable. Lo que ella no sabía es que realmente lo fue porque por ahora ese fue el último año que se han desarrollado con normalidad esas tres ceremonias.",
+      date: "28-04-2021",
+      img: "https://imagenes.elpais.com/resizer/Nw78YFa61Md7ktlo7WjEXMA272A=/828x0/filters:focal(2041.6666666666667x2015:2051.666666666667x2025)/cloudfront-eu-central-1.images.arcpublishing.com/prisa/XS3VVHFBIJODBBS3MKYDNA7HEY.jpg",
+      epigraph: "EDITORIAL",
+      excrept: "La aplicación del plan español debe servir para corregir sus limitaciones",
+      fullcontent: "<p>Desde este periódico hemos sostenido que las prioridades e inversiones propuestas están razonablemente perfiladas. En cuanto a las reformas estructurales, es pronto para emitir un juicio, ya que varias de las principales requieren aún bastante concreción. Sería deseable, aunque desgraciadamente parezca improbable, un mayor nivel de consenso político.</p><p>Para que el plan se muestre realmente certero en su gran objetivo —modernizar el sistema productivo—, la aprobación de los proyectos concretos debe pasar ante todo el filtro de su contribución a una economía más competitiva.Son correctos los condicionantes de cohesión social y territorial, la atención a la brecha de género y en general los objetivos sociales, también porque sin ellos no se entiende una economía del siglo XXI.Pero la activación de una política industrial de vanguardia debe ser prioritaria.Un ejemplo concreto: el plan de eficiencia energética en la vivienda tiene virtudes sociales —entre otras cosas por su intensidad en mano de obra— y ecológicas; pero será poco transformador si no va de la mano de un eficaz impulso a las capacidades tecnológicas y productivas en el sector.< /p><p>La presentación del plan italiano por el primer ministro Mario Draghi también ofrece motivos de reflexión.Por ejemplo, por su especial énfasis en el cambio educativo, de la formación, que se antoja inteligente.Otro aspecto mejorable del proyecto español radica en su gobernanza, muy circunscrita al ámbito de las administraciones.Los consejos asesores con participación de la sociedad civil pueden y deben tomar aliento para asentar la complicidad público - privada.Y la colaboración de las auditoras con la Intervención General de la Administración en la vigilancia y control de los proyectos puede realzarla.< /p><p> Claro está que el esquema de gobernanza podría haber mejorado desde el inicio de haberse fraguado un consenso político, con compromisos claros entre Gobierno y oposición, como ha sucedido en otros países.El caso italiano, con casi todo el arco parlamentario respaldando al Gobierno de Draghi, recuerda que otro clima político es posible.Pero España se halla instalada en una dinámica de conflicto político permanente.La campaña para las elecciones de Madrid ha exacerbado la polarización, y muy especialmente la deriva del extremismo populista, racista y ultra, que es preocupante.Frente a ello es precisa una inquebrantable firmeza democrática.Pero este importante problema no debería ser un factor inhibidor de la búsqueda de mayores dosis de consenso entre los principales partidos en las políticas más trascendentales.</p>",
       premium: true
     }
   ]
   error: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _utilitiesService: UtilitiesService) {
   }
 
   getArticle(id) {
-    return this.articles.find(article => article.id == id)
+    if (this.articles) {
+      return this.articles.find(article => article.id == id);
+    }
   }
 
   getRecomendedArticles() {
+    this._utilitiesService.loading = true;
     return this.http.post(environment.baseUrl + 'article/recomended', "");
+  }
+
+  confirmReadPremium(article) {
+    this._utilitiesService.loading = true;
+    console.log('article', article);
+    return this.http.post(environment.baseUrl + 'article/confirmreadpremium', article);
   }
 }

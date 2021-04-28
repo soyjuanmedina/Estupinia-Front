@@ -13,23 +13,22 @@ declare let $: any;
 })
 export class HomePage implements OnInit {
 
+  selectedArticle: Article;
+
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
-    this.getRecomendedArticles();
+    if (!this._articleService.articles) {
+      this.getRecomendedArticles();
+    }
   }
 
   getRecomendedArticles() {
-    this._utilitiesService.loading = true;
     this._articleService.getRecomendedArticles().subscribe(
       data => {
         let response = data as any;
         this._articleService.articles = response;
         this._articleService.articles = this._articleService.demoArticles.concat(this._articleService.articles);
         let dateString = this._articleService.articles[0].date;
-        let newDate = new Date(dateString);
-        console.log('newDate', newDate);
-        // this.recomendedArticles = this._articleService.demoArticles;
-        console.log('',);
         this._utilitiesService.loading = false;
       },
       err => {
@@ -39,9 +38,33 @@ export class HomePage implements OnInit {
     );
   }
 
-  showArticle(articleId) {
+  confirmReadPremium() {
+    this._articleService.confirmReadPremium(this.selectedArticle).subscribe(
+      data => {
+        this._utilitiesService.loading = false;
+        this._userService.user.premium_remain = this._userService.user.premium_remain - 1;
+        this._userService.saveUser(this._userService.user);
+        this.router.navigate(['/article', this.selectedArticle.id]);
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al comprar el artículo"
+        this._utilitiesService.loading = false;
+      }
+    );
+  }
+
+  buyAccess() {
+    this.router.navigate(['/paymentgateway']);
+  }
+
+  showArticle(article) {
+    this.selectedArticle = article;
     if (this._userService.user) {
-      this.router.navigate(['/article', articleId]);
+      if (article.premium) {
+        $('#premiumModal').modal('show');
+      } else {
+        this.router.navigate(['/article', article.id]);
+      }
     } else {
       $('#identifyModal').modal('show');
     }

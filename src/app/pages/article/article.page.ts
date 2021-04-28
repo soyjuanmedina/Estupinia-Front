@@ -19,6 +19,9 @@ export class ArticlePage implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.article = this._articleService.getArticle(params['id']);
+      if (!this.article) {
+        this.router.navigate(['/']);
+      }
     });
   }
 
