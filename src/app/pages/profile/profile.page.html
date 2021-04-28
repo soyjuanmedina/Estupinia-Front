@@ -64,8 +64,9 @@
         <button class="btn bg-secondary-color mt-2" (click)="updateProfile()"
           [disabled]="ProfileForm.invalid">Actualizar Perfil</button>
         <div class="text-center mt-2">
-          <div>¿Ya estas registrado? <button class="btn btn-xs bg-secondary-color m-2"
-              [routerLink]="['/login']">Login</button></div>
+          <div>Puedes leer {{_userService.user.premium_remain}} artículos premium<button
+              class="btn btn-xs bg-secondary-color m-2" [routerLink]="['/paymentgateway']">¿Quieres
+              más?</button></div>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
 
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
+    this._utilitiesService.clearAlerts();
     if (!this._articleService.articles) {
       this.getRecomendedArticles();
     }

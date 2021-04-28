@@ -71,7 +71,12 @@ export class ArticleService {
 
   confirmReadPremium(article) {
     this._utilitiesService.loading = true;
-    console.log('article', article);
     return this.http.post(environment.baseUrl + 'article/confirmreadpremium', article);
   }
+
+  buyPremiumAccess(amount) {
+    this._utilitiesService.loading = true;
+    return this.http.post(environment.baseUrl + 'article/buypremiumaccess', amount);
+  }
+
 }
