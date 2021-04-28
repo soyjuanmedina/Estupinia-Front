@@ -25,14 +25,14 @@
     puedes leer todos los artículos que los diferentes medios ofrecen de modo gratuito, y a los
     columnistas incluidos en tu suscripción.</h6>
 
-  <h4 *ngIf="!_userService.user">Registrate para acceder a nuestra selección de artículos</h4>
+  <h4 *ngIf="!_userService.user">Identificate para acceder a nuestra selección de artículos</h4>
   <hr>
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-    <div class="col mb-2" *ngFor="let article of recomendedArticles">
+    <div class="col mb-2" *ngFor="let article of _articleService.articles"
+      (click)="showArticle(article.id)">
       <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
-        <img [routerLink]="_userService.user ? ['/article', article.id] : []" [src]="article.img"
-          class="card-img-top">
+        <img [src]="article.img" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{article.title}}</h5>
 
@@ -41,12 +41,40 @@
           <b>Fecha: </b>{{article.date}}<br />
           <div> {{article.excrept | limitTo: 150}}</div>
         </div>
-        <div *ngIf="!_userService.user" class="bg-secondary-color">
-          <button class="btn btn-xs bg-light m-2" [routerLink]="['/login']">Login</button>
-          <button class="btn btn-xs bg-light m-2" [routerLink]="['/register']">Registro</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
-        <button *ngIf="_userService.user" class="btn bg-secondary-color m-2"
-          [routerLink]="['/article', article.id]">Leer</button>
+        <div class="modal-body">
+          <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
+            opinión.</h6>
+        </div>
+        <div>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            [routerLink]="['/login']">Login</button>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            [routerLink]="['/register']">Registro</button>
+
+          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>
