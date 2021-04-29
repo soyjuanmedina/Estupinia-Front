@@ -18,8 +18,14 @@
   </div>
 </div>
 
+<div class="text-center mt-2" *ngIf="!_articleService.articles">
+  <h6>Un momento, estamos buscando los artículos más interesantes. ¡Te los mostraremos en un
+    momento!</h6>
+  <img src="./assets/img/loading-articles.gif" alt="Girl in a jacket">
+</div>
 
-<div class="text-center p-3">
+
+<div class="text-center p-3" *ngIf="_articleService.articles">
 
   <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
     puedes leer todos los artículos que los diferentes medios ofrecen de modo gratuito, y a los
