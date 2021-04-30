@@ -8,3 +8,13 @@ max-height: 200px;
 img{
   max-width: 100%;
 }
+
+.accordion-item {
+    margin-bottom: -1px;
+    background-color:inherit;
+    border: none;
+}
+
+.btn:focus {
+    box-shadow: none;
+}

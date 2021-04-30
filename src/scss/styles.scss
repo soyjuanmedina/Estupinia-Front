@@ -1,6 +1,11 @@
 $main-color: #3E320C;
 $secondary-color: #AC8400;
 
+
+$primary: $secondary-color;
+
+@import "bootstrap";
+
 body{
   background-color: #ddd;
 }

@@ -14,6 +14,7 @@ declare let $: any;
 export class HomePage implements OnInit {
 
   selectedArticle: Article;
+  searchedArticles: boolean;
 
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
@@ -24,6 +25,7 @@ export class HomePage implements OnInit {
   }
 
   getRecomendedArticles() {
+    this.searchedArticles = false;
     this._articleService.getRecomendedArticles().subscribe(
       data => {
         let response = data as any;
@@ -69,6 +71,11 @@ export class HomePage implements OnInit {
     } else {
       $('#identifyModal').modal('show');
     }
+  }
+
+  searchArticles() {
+    console.log("searchArticles");
+    this.searchedArticles = true;
   }
 
   ngOnInit(): void {

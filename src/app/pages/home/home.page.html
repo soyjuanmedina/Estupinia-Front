@@ -25,98 +25,134 @@
 </div>
 
 
-<div class="text-center p-3" *ngIf="_articleService.articles">
+<div class="text-center p-3">
 
   <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
     puedes leer todos los artículos que los diferentes medios ofrecen de modo gratuito, y a los
     columnistas incluidos en tu suscripción.</h6>
 
   <h4 *ngIf="!_userService.user">Identificate para acceder a nuestra selección de artículos</h4>
-  <hr>
 
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-    <div class="col mb-2" *ngFor="let article of _articleService.articles"
-      (click)="showArticle(article)">
-      <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
-        <img [src]="article.img" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title">{{article.title}}</h5>
 
-          <span *ngIf="article.writer"><b>Autor: </b>{{article.writer}}<br /></span>
-          <span *ngIf="article.media"><b>Medio: </b>{{article.media}}<br /></span>
-          <b>Fecha: </b>{{article.date}}<br />
-          <div> {{article.excrept | limitTo: 150}}</div>
+
+
+</div>
+
+
+<hr>
+
+
+<div class="accordion mb-2" id="accordionExample">
+  <div class="accordion-item">
+    <div class="text-end">
+      <button class="btn btn-xs bg-secondary-color m-2" data-bs-toggle="collapse"
+        data-bs-target="#collapseOne"><i class="fas fa-search"></i> Buscar artículos</button>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <div class="text-end">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="elconfidencial"
+              value="elconfidencial">
+            <label class="form-check-label" for="elconfidencial">El Confidencial</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="vozpopuli" value="vozpopuli">
+            <label class="form-check-label" for="vozpopuli">Voz populi</label>
+          </div>
+        </div>
+        <div class="text-end">
+          <button class="btn btn-xs bg-secondary-color m-2"
+            (click)="searchArticles()">Buscar</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
+<h4 *ngIf="!searchedArticles">Artículos destacados</h4>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+  <div class="col mb-2" *ngFor="let article of _articleService.articles"
+    (click)="showArticle(article)">
+    <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
+      <img [src]="article.img" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">{{article.title}}</h5>
 
-
-
-
-
-
-
-
-  <!-- identifyModal -->
-  <div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
-            opinión.</h6>
-        </div>
-        <div>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            [routerLink]="['/login']">Login</button>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            [routerLink]="['/register']">Registro</button>
-
-          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
-        </div>
+        <span *ngIf="article.writer"><b>Autor: </b>{{article.writer}}<br /></span>
+        <span *ngIf="article.media"><b>Medio: </b>{{article.media}}<br /></span>
+        <b>Fecha: </b>{{article.date}}<br />
+        <div> {{article.excrept | limitTo: 150}}</div>
       </div>
     </div>
   </div>
+</div>
 
 
-  <!-- premiumModal -->
-  <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" *ngIf="_userService.user">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="premiumModalLabel">Artículo Premium</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body" *ngIf="_userService.user.premium_remain > 0">
-          <h6>Te quedan {{_userService.user.premium_remain}} articulos premium. Confirma para leer
-          </h6>
-          <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
-            {{selectedArticle?.writer}}</h4>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            (click)="confirmReadPremium()">Confirmar</button>
-          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
-        </div>
 
-        <div class="modal-body" *ngIf="_userService.user.premium_remain <= 0">
-          <h6>No te quedan articulos premium. ¿Quieres comprar accesos?
-          </h6>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            (click)="buyAccess()">Confirmar</button>
-          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
-        </div>
 
-        <div>
 
-        </div>
+
+
+
+
+<!-- identifyModal -->
+<div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
+          opinión.</h6>
+      </div>
+      <div>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          [routerLink]="['/login']">Login</button>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          [routerLink]="['/register']">Registro</button>
+
+        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
+</div>
+
+
+<!-- premiumModal -->
+<div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" *ngIf="_userService.user">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="premiumModalLabel">Artículo Premium</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="_userService.user.premium_remain > 0">
+        <h6>Te quedan {{_userService.user.premium_remain}} articulos premium. Confirma para leer
+        </h6>
+        <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
+          {{selectedArticle?.writer}}</h4>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          (click)="confirmReadPremium()">Confirmar</button>
+        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+
+      <div class="modal-body" *ngIf="_userService.user.premium_remain <= 0">
+        <h6>No te quedan articulos premium. ¿Quieres comprar accesos?
+        </h6>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          (click)="buyAccess()">Confirmar</button>
+        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+
+      <div>
+
+      </div>
+    </div>
+  </div>
+</div>
