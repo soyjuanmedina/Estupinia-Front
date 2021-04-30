@@ -109,8 +109,6 @@
         <div class="modal-body" *ngIf="_userService.user.premium_remain <= 0">
           <h6>No te quedan articulos premium. ¿Quieres comprar accesos?
           </h6>
-          <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
-            {{selectedArticle?.writer}}</h4>
           <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
             (click)="buyAccess()">Confirmar</button>
           <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
