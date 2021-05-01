@@ -40,18 +40,19 @@
 
 
 <hr>
-
-
-<div class="accordion mb-2" id="accordionExample">
+<div class="accordion mb-2" id="searchingAccordion">
   <div class="accordion-item">
     <div class="text-end">
       <button class="btn btn-xs bg-secondary-color m-2" data-bs-toggle="collapse"
-        data-bs-target="#collapseOne"><i class="fas fa-search"></i> Buscar artículos</button>
+        (click)="changeVisibility()" data-bs-target="#collapseOne">
+        <span *ngIf="!isVisible"><i class="fas fa-search"></i> Buscar artículos</span><span
+          *ngIf="isVisible"><i class="fas fa-times-circle"></i> Cerrar
+        </span></button>
     </div>
     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-      data-bs-parent="#accordionExample">
+      data-bs-parent="#searchingAccordion">
       <div class="accordion-body">
-        <h6>Por medio</h6>
+        <h6>Busqueda por medio</h6>
         <hr>
         <div class="text-end">
 
@@ -77,6 +78,8 @@
   <div class="col mb-2" *ngFor="let article of _articleService.articles"
     (click)="showArticle(article)">
     <div class="card" [ngClass]="article.premium ? 'bg-secondary' : ''">
+      <h6 *ngIf="article.premium" class="bg-primary text-center">Artículo
+        premium</h6>
       <img [src]="article.img" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">{{article.title}}</h5>
@@ -107,16 +110,13 @@
         <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
           opinión.</h6>
-      </div>
-      <div class="text-center">
         <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
           [routerLink]="['/login']">Login</button>
         <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
           [routerLink]="['/register']">Registro</button>
-
         <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </div>
@@ -133,7 +133,7 @@
         <h5 class="modal-title" id="premiumModalLabel">Artículo Premium</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" *ngIf="_userService.user.premium_remain > 0">
+      <div class="modal-body text-center" *ngIf="_userService.user.premium_remain > 0">
         <h6>Te quedan {{_userService.user.premium_remain}} articulos premium. Confirma para leer
         </h6>
         <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
@@ -143,14 +143,12 @@
         <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
       </div>
 
-      <div class="modal-body" *ngIf="_userService.user.premium_remain <= 0">
+      <div class="modal-body text-center" *ngIf="_userService.user.premium_remain <= 0">
         <h6>No te quedan articulos premium. ¿Quieres comprar accesos?
         </h6>
-        <div class="text-center">
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            (click)="buyAccess()">Confirmar</button>
-          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
-        </div>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          (click)="buyAccess()">Confirmar</button>
+        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
       </div>
 
       <div>

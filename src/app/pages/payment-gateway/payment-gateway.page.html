@@ -1,5 +1,7 @@
 <div class="alert alert-success mt-2" *ngIf="_utilitiesService.alertSuccess" role="alert">
   {{_utilitiesService.alertSuccess}} {{_userService.user.premium_remain}} artículos
+  <div class="text-center">Volver a la <button class="btn btn-xs bg-secondary-color m-2"
+      [routerLink]="['/']">Home</button></div>
 </div>
 
 <div class="alert alert-danger mt-2" *ngIf="_utilitiesService.alertError" role="alert">

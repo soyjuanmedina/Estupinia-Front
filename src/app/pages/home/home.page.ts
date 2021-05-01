@@ -18,6 +18,7 @@ export class HomePage implements OnInit {
   selectedArticle: Article;
   mediaSearchedArticles: Media;
   selectedMedia: Media;
+  isVisible = $('#searchingAccordion').is(":visible");
 
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
@@ -28,6 +29,10 @@ export class HomePage implements OnInit {
     if (!this._articleService.medias) {
       this.getMedias();
     }
+  }
+
+  changeVisibility() {
+    this.isVisible = !this.isVisible;
   }
 
   getMedias() {
