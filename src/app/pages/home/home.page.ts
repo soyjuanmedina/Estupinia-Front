@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Article } from '../../interfaces/article';
+import { Media } from '../../interfaces/media';
 import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
@@ -15,6 +17,8 @@ export class HomePage implements OnInit {
 
   selectedArticle: Article;
   searchedArticles: boolean;
+  selectedMedia: Media;
+
 
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
@@ -22,6 +26,23 @@ export class HomePage implements OnInit {
     if (!this._articleService.articles) {
       this.getRecomendedArticles();
     }
+    if (!this._articleService.medias) {
+      this.getMedias();
+    }
+  }
+
+  getMedias() {
+    this._articleService.getMedias().subscribe(
+      data => {
+        let response = data as any;
+        this._articleService.medias = response;
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los medios"
+        this._utilitiesService.loading = false;
+      }
+    );
   }
 
   getRecomendedArticles() {
@@ -73,10 +94,27 @@ export class HomePage implements OnInit {
     }
   }
 
-  searchArticles() {
-    console.log("searchArticles");
+  getArticlesByMedia() {
+    console.log(this.selectedMedia);
+
+    this._articleService.getArticlesByMedia(this.selectedMedia).subscribe(
+      data => {
+        let response = data as any;
+        this._articleService.articles = response;
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
+        this._utilitiesService.loading = false;
+      }
+    );
     this.searchedArticles = true;
   }
+
+  selectMedia(media) {
+    this.selectedMedia = media;
+  }
+
 
   ngOnInit(): void {
   }

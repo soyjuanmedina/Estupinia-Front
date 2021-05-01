@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Article } from '../interfaces/article';
 import { UtilitiesService } from "./utilities.service";
+import { Media } from "../interfaces/media";
 
 const USER_CONTROLLER = '/user/';
 const USER_KEY = 'auth-user';
@@ -14,6 +15,7 @@ const USER_KEY = 'auth-user';
 export class ArticleService {
 
   articles: Array<Article>
+  medias: Array<Media>
 
   demoArticles: Array<Article> = [
     {
@@ -67,6 +69,16 @@ export class ArticleService {
   getRecomendedArticles() {
     this._utilitiesService.loading = true;
     return this.http.post(environment.baseUrl + 'article/recomended', "");
+  }
+
+  getMedias() {
+    this._utilitiesService.loading = true;
+    return this.http.post(environment.baseUrl + 'article/medias', "");
+  }
+
+  getArticlesByMedia(media) {
+    this._utilitiesService.loading = true;
+    return this.http.post(environment.baseUrl + 'article/getArticlesByMedia', media);
   }
 
   confirmReadPremium(article) {
