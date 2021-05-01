@@ -20,4 +20,8 @@ export class UtilitiesService {
     this.loading = false;
   }
 
+  cloneObject(object) {
+    return Object.assign({}, object);
+  }
+
 }

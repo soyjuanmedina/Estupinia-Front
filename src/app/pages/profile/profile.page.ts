@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
 
   constructor(public _authService: AuthService,
     public _utilitiesService: UtilitiesService, public _userService: UserService) {
-    this.editedUser = Object.assign({}, this._userService.user);
+    this.editedUser = this._utilitiesService.cloneObject(this._userService.user);
     this.editedUser.confirmPassword = '';
 
   }

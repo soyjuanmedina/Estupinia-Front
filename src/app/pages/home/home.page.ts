@@ -16,9 +16,8 @@ declare let $: any;
 export class HomePage implements OnInit {
 
   selectedArticle: Article;
-  searchedArticles: boolean;
+  mediaSearchedArticles: Media;
   selectedMedia: Media;
-
 
   constructor(public _articleService: ArticleService, public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
@@ -35,6 +34,10 @@ export class HomePage implements OnInit {
     this._articleService.getMedias().subscribe(
       data => {
         let response = data as any;
+        let recomended = {
+          name: "Artículos destacados",
+        }
+        response.push(recomended);
         this._articleService.medias = response;
         this._utilitiesService.loading = false;
       },
@@ -46,7 +49,7 @@ export class HomePage implements OnInit {
   }
 
   getRecomendedArticles() {
-    this.searchedArticles = false;
+    delete this.mediaSearchedArticles;
     this._articleService.getRecomendedArticles().subscribe(
       data => {
         let response = data as any;
@@ -95,25 +98,26 @@ export class HomePage implements OnInit {
   }
 
   getArticlesByMedia() {
-    console.log(this.selectedMedia);
+    if (!this.selectedMedia.url) {
+      this.getRecomendedArticles();
+    } else {
+      this._articleService.getArticlesByMedia(this.selectedMedia).subscribe(
+        data => {
+          let response = data as any;
+          this._articleService.articles = response;
+          this._utilitiesService.loading = false;
+        },
+        err => {
+          this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
+          this._utilitiesService.loading = false;
+        }
+      );
+      this.mediaSearchedArticles = this._utilitiesService.cloneObject(this.selectedMedia);
+    }
 
-    this._articleService.getArticlesByMedia(this.selectedMedia).subscribe(
-      data => {
-        let response = data as any;
-        this._articleService.articles = response;
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
-        this._utilitiesService.loading = false;
-      }
-    );
-    this.searchedArticles = true;
   }
 
-  selectMedia(media) {
-    this.selectedMedia = media;
-  }
+
 
 
   ngOnInit(): void {
