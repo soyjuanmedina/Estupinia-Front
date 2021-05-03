@@ -8,6 +8,8 @@ import { UserService } from '../../services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
+  showed: boolean = false;
+
   constructor(private authService: AuthService, public _userService: UserService) { }
 
   logout() {

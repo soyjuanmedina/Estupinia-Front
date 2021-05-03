@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -11,7 +14,12 @@ export class UtilitiesService {
   alertError: string;
   loading: boolean;
 
-  constructor() {
+  constructor(private http: HttpClient) {
+  }
+
+  sendMail(params) {
+    let url = environment.baseUrl + 'utilities/sendMail';
+    return this.http.post(url, params)
   }
 
   clearAlerts() {

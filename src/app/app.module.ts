@@ -15,6 +15,9 @@ import { LimitToPipe } from './pipes/limit-to.pipe';
 import { ProfilePage } from './pages/profile/profile.page';
 import { ArticlePage } from './pages/article/article.page';
 import { PaymentGatewayPage } from './pages/payment-gateway/payment-gateway.page';
+import { FooterComponent } from './components/footer/footer.component';
+import { ContactPage } from './pages/contact/contact.page';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { PaymentGatewayPage } from './pages/payment-gateway/payment-gateway.page
     LimitToPipe,
     ProfilePage,
     ArticlePage,
-    PaymentGatewayPage
+    PaymentGatewayPage,
+    FooterComponent,
+    ContactPage,
+    SideMenuComponent
   ],
   imports: [
     BrowserModule,

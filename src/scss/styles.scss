@@ -3,6 +3,7 @@ $secondary-color: #AC8400;
 
 
 $primary: $secondary-color;
+$secondary: $main-color;
 
 @import "bootstrap";
 
@@ -12,6 +13,7 @@ body{
 
 .bg-main-color{
   background-color: $main-color;
+  color: whitesmoke
 }
 
 .bg-secondary-color{
@@ -76,3 +78,31 @@ body{
     background-color: $main-color;
     color: #fff
 }
+
+
+
+
+// Append footer to bottom
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#container {
+   min-height:100%;
+   position:relative;
+}
+
+#body {
+   padding:10px;
+   padding-bottom:150px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+}
+
+// END Append footer to bottom
+
