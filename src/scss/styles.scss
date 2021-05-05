@@ -21,6 +21,14 @@ body{
   color: whitesmoke
 }
 
+.bg-secondary{
+  color: whitesmoke
+}
+
+.bg-secondary:hover{
+  color: $secondary-color;
+}
+
 .bor{
 	border: 1px solid $secondary-color;
 }

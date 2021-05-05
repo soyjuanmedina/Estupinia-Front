@@ -18,6 +18,7 @@ import { PaymentGatewayPage } from './pages/payment-gateway/payment-gateway.page
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactPage } from './pages/contact/contact.page';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { ConfirmemailPage } from './pages/confirmemail/confirmemail.page';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
     PaymentGatewayPage,
     FooterComponent,
     ContactPage,
-    SideMenuComponent
+    SideMenuComponent,
+    ConfirmemailPage
   ],
   imports: [
     BrowserModule,
