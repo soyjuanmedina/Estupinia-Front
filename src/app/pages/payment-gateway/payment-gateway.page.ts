@@ -6,7 +6,8 @@ import { UtilitiesService } from '../../services/utilities.service';
 
 @Component({
   selector: 'payment-gateway-page',
-  templateUrl: './payment-gateway.page.html'
+  templateUrl: './payment-gateway.page.html',
+  styleUrls: ['./payment-gateway.page.scss'],
 })
 export class PaymentGatewayPage implements OnInit {
 
@@ -16,6 +17,23 @@ export class PaymentGatewayPage implements OnInit {
   });
 
   constructor(public _utilitiesService: UtilitiesService, public _articleService: ArticleService, public _userService: UserService,) { }
+
+  buyAccess(type) {
+    this._articleService.buyAccess(type).subscribe(
+      data => {
+        this._utilitiesService.loading = false;
+        this._userService.saveUser(data);
+        this._utilitiesService.alertSuccess = "La compra se ha efectuado correctamente, ahora tiene acceso a "
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al realizar la compra"
+        this._utilitiesService.loading = false;
+      }
+    );
+
+  }
+
+
 
   buyPremiumAccess() {
     this._articleService.buyPremiumAccess(this.buyForm.value.amount).subscribe(

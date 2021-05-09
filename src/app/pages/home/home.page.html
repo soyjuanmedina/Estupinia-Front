@@ -25,75 +25,142 @@
 </div>
 
 
+
 <div class="text-center p-3">
 
   <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
-    puedes leer todos los artículos que los diferentes medios ofrecen de modo gratuito, y a los
-    columnistas incluidos en tu suscripción.</h6>
+    puedes leer los artículos de nuestra selección de columnistas fácilmente y desde un mismo lugar.
+  </h6>
 
-  <h4 *ngIf="!_userService.user">Identificate para acceder a nuestra selección de artículos</h4>
+  <h4 *ngIf="!_userService.user">Identificate o registrate para acceder a nuestra selección de
+    artículos</h4>
 
 
 
 
 </div>
 
+<div *ngIf="_userService.user">
 
-<hr>
-<div class="accordion mb-2" id="searchingAccordion">
-  <div class="accordion-item">
-    <div class="text-end">
-      <button class="btn btn-xs bg-secondary-color m-2" data-bs-toggle="collapse"
-        (click)="changeVisibility()" data-bs-target="#collapseOne">
-        <span *ngIf="!isVisible"><i class="fas fa-search"></i> Buscar artículos</span><span
-          *ngIf="isVisible"><i class="fas fa-times-circle"></i> Cerrar
-        </span></button>
-    </div>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-      data-bs-parent="#searchingAccordion">
-      <div class="accordion-body">
-        <h6>Busqueda por medio</h6>
-        <hr>
-        <div class="text-end">
+  <hr>
+  <div class="accordion mb-2" id="searchingAccordion">
+    <div class="accordion-item">
+      <div class="text-end">
+        <button class="btn btn-xs bg-secondary-color m-2" data-bs-toggle="collapse"
+          (click)="changeVisibility()" data-bs-target="#collapseOne" (click)="clearFilters()">
+          <span *ngIf="!isVisible"><i class="fas fa-search"></i> Filtrar artículos</span><span
+            *ngIf="isVisible"><i class="fas fa-times-circle"></i> Eliminar
+            filtros
+          </span></button>
+      </div>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+        data-bs-parent="#searchingAccordion">
+        <div class="accordion-body">
 
-          <div class="form-check form-check-inline" *ngFor="let media of _articleService.medias">
-            <input class="form-check-input" type="radio" [id]="media.name" [value]="media"
-              [(ngModel)]="selectedMedia">
-            <label class="form-check-label" [for]="media.name">{{media.name}}</label>
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active btn btn-xs bg-secondary-color" id="nav-author-tab"
+                data-bs-toggle="tab" data-bs-target="#nav-author" type="button" role="tab"
+                aria-controls="nav-author" aria-selected="true" (click)="clearFilters()">Por
+                Autor</button>
+              <button class="nav-link btn btn-xs bg-secondary-color" id="nav-media-tab"
+                data-bs-toggle="tab" data-bs-target="#nav-media" type="button" role="tab"
+                aria-controls="nav-media" aria-selected="false" (click)="clearFilters()">Por
+                Medio</button>
+              <button class="nav-link btn btn-xs bg-secondary-color" id="nav-tag-tab"
+                data-bs-toggle="tab" data-bs-target="#nav-tag" type="button" role="tab"
+                aria-controls="nav-tag" aria-selected="false" (click)="clearFilters()">Por
+                Etiqueta</button>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-author" role="tabpanel"
+              aria-labelledby="nav-author-tab">
+
+
+              <div class="text-end mt-3">
+                <div class="form-check form-check-inline"
+                  *ngFor="let author of _articleService.authors">
+                  <input class="form-check-input" type="radio" [id]="author" [value]="author"
+                    [(ngModel)]="selectedAuthor">
+                  <label class="form-check-label" [for]="author">{{author}}</label>
+                </div>
+              </div>
+              <div class="text-end">
+                <button class="btn btn-xs bg-secondary-color m-2"
+                  (click)="getArticlesByAuthor()">Filtrar</button>
+              </div>
+
+
+
+            </div>
+            <div class="tab-pane fade" id="nav-media" role="tabpanel"
+              aria-labelledby="nav-media-tab">
+              <div class="text-end mt-3">
+
+                <div class="form-check form-check-inline"
+                  *ngFor="let media of _articleService.medias">
+                  <input class="form-check-input" type="radio" [id]="media" [value]="media"
+                    [(ngModel)]="selectedMedia">
+                  <label class="form-check-label" [for]="media">{{media}}</label>
+                </div>
+              </div>
+              <div class="text-end">
+                <button class="btn btn-xs bg-secondary-color m-2"
+                  (click)="getArticlesByMedia()">Filtrar</button>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-tag" role="tabpanel" aria-labelledby="nav-tag-tab">
+
+
+
+              <div class="text-end mt-3">
+                <div class="form-check form-check-inline" *ngFor="let tag of _articleService.tags">
+                  <input class="form-check-input" type="radio" [id]="tag" [value]="tag"
+                    [(ngModel)]="selectedTag">
+                  <label class="form-check-label" [for]="tag">{{tag}}</label>
+                </div>
+              </div>
+              <div class="text-end">
+                <button class="btn btn-xs bg-secondary-color m-2"
+                  (click)="getArticlesByTag()">Filtrar</button>
+              </div>
+
+
+
+
+
+            </div>
           </div>
-        </div>
-        <div class="text-end">
-          <button class="btn btn-xs bg-secondary-color m-2"
-            (click)="getArticlesByMedia()">Buscar</button>
+
+
+
+
         </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
+    [@aliasesAnimation]="_articleService.articles">
+    <div class="col mb-2" *ngFor="let article of _articleService.articles"
+      (click)="showArticle(article)">
+      <div class="card"
+        [ngClass]="{'bg-secondary-color': _userService.user?.buyedArticles?.includes(this.article.id)}">
+        <img [src]="article.img" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{article.title}}</h5>
 
-
-<h4 *ngIf="mediaSearchedArticles">Artículos de {{mediaSearchedArticles.name}}</h4>
-<h4 *ngIf="!mediaSearchedArticles">Artículos destacados</h4>
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-  <div class="col mb-2" *ngFor="let article of _articleService.articles"
-    (click)="showArticle(article)">
-    <div class="card" [ngClass]="article.premium ? 'bg-primary' : ''">
-      <h6 *ngIf="article.premium" class="bg-primary text-center">Artículo
-        premium</h6>
-      <img [src]="article.img" class="card-img-top">
-      <div class="card-body">
-        <h5 class="card-title">{{article.title}}</h5>
-
-        <span *ngIf="article.writer"><b>Autor: </b>{{article.writer}}<br /></span>
-        <span *ngIf="article.media"><b>Medio: </b>{{article.media}}<br /></span>
-        <b>Fecha: </b>{{article.date}}<br />
-        <div> {{article.excrept | limitTo: 150}}</div>
+          <span *ngIf="article.writer"><b>Autor: </b>{{article.writer}}<br /></span>
+          <span *ngIf="article.media"><b>Medio: </b>{{article.media}}<br /></span>
+          <span *ngIf="article.tags"><b>Etiquetas: </b>{{article.tags}}<br /></span>
+          <b>Fecha: </b>{{article.date}}<br />
+          <div> {{article.excrept | limitTo: 150}}</div>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
-
-
 
 
 
@@ -130,14 +197,15 @@
   <div class="modal-dialog" *ngIf="_userService.user">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="premiumModalLabel">Artículo Premium</h5>
+        <h5 class="modal-title" id="premiumModalLabel">Confirmar selección</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center" *ngIf="_userService.user.premium_remain > 0">
-        <h6>Te quedan {{_userService.user.premium_remain}} articulos premium. Confirma para leer
+        <h6>Te quedan {{_userService.user.premium_remain}} articulos para leer hoy. Confirma para
+          leer
         </h6>
-        <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.writer">de</span>
-          {{selectedArticle?.writer}}</h4>
+        <h4>"{{selectedArticle?.title}}" <span *ngIf="selectedArticle?.author">de</span>
+          {{selectedArticle?.author}}</h4>
         <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
           (click)="confirmReadPremium()">Confirmar</button>
         <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>

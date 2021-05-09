@@ -1,13 +1,13 @@
 export interface Article {
+  id?: string;
   title: string;
-  id?: number;
   media?: string;
-  writer?: string;
+  author?: string;
   date: string;
   img?: string;
   fullcontent?: string;
   epigraph?: string;
   excrept?: string;
   url?: string;
-  premium: boolean;
+  tags?: Array<string>;
 }

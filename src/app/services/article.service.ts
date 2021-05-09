@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Article } from '../interfaces/article';
 import { UtilitiesService } from "./utilities.service";
 import { Media } from "../interfaces/media";
+import { AppConstants } from '../appConstants';
+import { Observable, of } from "rxjs";
+import { ArticlePage } from "../pages/article/article.page";
 
 const USER_CONTROLLER = '/user/';
 const USER_KEY = 'auth-user';
@@ -15,44 +18,47 @@ const USER_KEY = 'auth-user';
 export class ArticleService {
 
   articles: Array<Article>
-  medias: Array<Media>
+  allArticles: Array<Article>
+  medias: Array<string>
+  authors: Array<string>
+  tags: Array<string>
 
   demoArticles: Array<Article> = [
     {
-      title: "Macron, el elitismo y la gente corriente",
-      id: 1,
+      title: "Artículo 1",
+      id: "1",
       media: "El Pais",
-      writer: "CHRISTOPHE GUILLUY",
-      date: "24-04-2021",
-      img: "https://cloudfront-eu-central-1.images.arcpublishing.com/prisa/JZIFGT3B4NCF3JOPAX26LFG4VM.jpg",
-      fullcontent: "<p class=''>¿Ha comprendido Emmanuel Macron que <a href='https://elpais.com/elpais/2020/08/06/eps/1596714190_453950.html' target='_blank' data-link-track-dtm=''>el movimiento de los chalecos amarillos no era más que el preludio</a>? ¿Se ha dado cuenta de que la protesta popular no se ha interrumpido? ¿De que no deja de mutar, transformarse, evolucionar, tanto en Francia como en los demás países occidentales, a medida que se vuelve más frágil la clase media? ¿Es consciente de la importancia que tiene la fractura cultural entre las clases populares y las clases dirigentes? ¿<a href='https://elpais.com/opinion/2021-04-10/el-fin-de-la-ena-y-la-busqueda-de-un-nuevo-modelo-en-francia.html' target='_blank' data-link-track-dtm=''>La eliminación de la ENA es señal de una epifanía</a> o, por el contrario, la confirmación de que, después de cuatro años de ejercer el poder, parece haberse consumado el divorcio de Júpiter y la gente corriente?</p><p class=''>Mientras <a href='https://elpais.com/sociedad/2021-04-09/francia-inyectara-vacunas-de-pfizer-o-moderna-a-los-menores-de-55-anos-que-recibieron-una-dosis-de-astrazeneca.html' target='_blank' data-link-track-dtm=''>Francia sobrepasa la barrera simbólica de los 100.000 muertos</a> por covid, dos años después de la revuelta de los chalecos amarillos, el poder se enfrenta a una crisis económica, social y cultural sin precedentes. La economía está hundida y ya no es una minoría de excluidos la que sufre por el modelo neoliberal, sino la mayoría de la población. Ante estas realidades, los franceses esperan una solución política que esté a la altura.</p><p class=''>Ahora bien, la respuesta de Emmanuel Macron ante esta crisis de civilización consiste en una medida ridícula: <a href='https://elpais.com/internacional/2021-04-08/macron-remplaza-la-ena-vivero-de-las-elites-francesas-con-una-nueva-escuela-para-funcionarios.html' target='_blank' data-link-track-dtm=''>la supresión de la Escuela Nacional de la Administración (ENA)</a>. Una vez más, prefiere el espectáculo a la política. Si los franceses tienen un problema con sus élites, quememos el símbolo del elitismo. Con la vista puesta en los sondeos, especialmente en la intención de voto en favor de Marine Le Pen, que alcanza un nivel inigualado (48%), el presidente de la República se remite a la comunicación. Es decir, Júpiter, al frente de una agencia de publicidad, revela su impotencia y su incapacidad para comprender a la sociedad.</p><p class=''>En esta operación, todo suena a falso. Para empezar, el momento escogido: como en cualquier campaña publicitaria digna de respeto, la eliminación de la ENA se anunció por sorpresa. En segundo lugar, el envoltorio. La ENA va a ser sustituida por el Instituto de Servicios Públicos, un nombre sin contenido en el que resulta simbólica la desaparición de la palabra “nacional”. Esta nueva estructura, propia de los tiempos que corren, será fiel al pliego de condiciones que figura en las producciones de Netflix, es decir, será más inclusiva y más abierta a la diversidad. El énfasis en la comunicación da la sensación de actividad y permite que durante un tiempo <a href='https://elpais.com/sociedad/2021-04-23/lluvia-de-bragas-para-el-primer-ministro-de-francia.html' target='_blank' data-link-track-dtm=''>se deje de prestar atención a los fracasos del Gobierno</a> pero, sobre todo, revela hasta qué punto está desconectado Emmanuel Macron y, aún peor, que se equivoca de objetivo.</p><p class=''>Al suprimir el tótem del elitismo francés, el poder está atacando también un símbolo del Estado y la República. El Elíseo parece haber olvidado que la carta fundacional de la escuela no solo lleva la firma del general De Gaulle, sino también <a href='https://elpais.com/cultura/2021-04-11/el-partido-comunista-frances-exhibe-sus-tesoros.html' target='_blank' data-link-track-dtm=''>del secretario general del partido Comunista Francés, Maurice Thorez</a>. La ENA, fruto de un consenso político, pretendía seleccionar a sus miembros independientemente del origen social. Esa es la paradoja: si bien es cierto que la ENA ha dejado de cumplir su propósito inicial, se creó como símbolo de la meritocracia republicana.</p><p class=''>Pero lo más preocupante es otro aspecto, el hecho de que esta medida no aborda el obstáculo que bloquea la sociedad francesa: el proceso de selección de las élites.</p><p class=''>La reproducción social es, ante todo, consecuencia del abandono del bien común y el conformismo de las clases dirigentes. Por consiguiente, el motivo de la endogamia no es la ENA, sino la adhesión a un modelo neoliberal que agudiza las desigualdades. Aunque el principio de igualdad figura en las fachadas de todos los centros educativos, la realidad es que estamos en un país en el que la movilidad social ha dejado de existir. En Francia hacen falta seis generaciones para que los descendientes de una familia pobre lleguen a ser clase media, uno de los peores resultados entre los países de la OCDE.</p><p class=''>Pero hay cosas aún más preocupantes. Esta decisión pone de manifiesto un profundo desconocimiento de la gente corriente. Concebida como una campaña para hacer olvidar la imagen de un Macron “presidente de los ricos”, revela la importancia de la fractura cultural entre el pueblo y sus representantes.</p><p class=''>El Elíseo ha presentado la disolución de la ENA<a href='https://elpais.com/internacional/2020-03-14/los-chalecos-amarillos-desafian-al-coronavirus-y-marchan-en-paris.html' target='_blank' data-link-track-dtm=''> como una respuesta al movimiento de los chalecos amarillos.</a> Dos años después del mayor movimiento social que ha conocido el país desde 1968, no parece que Emmanuel Macron haya entendido todavía los motivos de fondo de esta revuelta ni a los franceses que lo originaron.</p><p class=''>La desaparición de la ENA no ha sido nunca una petición fundamental de las clases medias y populares que saltaron a las calles en noviembre de 2018. La movilización, que comenzó por la bajada del poder adquisitivo, era ante todo un movimiento de reconocimiento cultural. Reaccionar a esta protesta con la eliminación de un símbolo del elitismo equivale a reducir una revuelta existencial a las pasiones tristes de unos “deplorables” que rechazan a las élites por principio. Esta imagen de un pueblo que se opone a la meritocracia, el elitismo y la inteligencia oculta un profundo desprecio de clase. Se elimina la ENA igual que se daba pan y circo a la plebe.</p><p class=''>Sin embargo, en contra de lo que piensa <a href='https://elpais.com/noticias/emmanuel-macron/' target='_blank' data-link-track-dtm=''>Macron</a>, las clases populares son muy sensibles al nivel cultural de las élites y siempre se han sentido atraídas por los personajes políticos que dominan la lengua, no por los publicistas que manipulan la nueva jerga. El lenguaje cuidado fue lo que hizo que los dirigentes comunistas, de Maurice Thorez a Georges Marchais, pasando por Jacques Duclos, captaran la atención de los obreros. Los asesores de comunicación del Elíseo se equivocan cuando explican el grado de desconfianza de los medios populares con la famosa expresión “todos corruptos”. Este análisis equipara a la gente corriente con una masa embrutecida y permite apartar la vista de la mediocracia de los de arriba. Impide ver la correlación entre el hundimiento intelectual de las clases dirigentes y la aversión que inspiran.</p><p class=''>Es frecuente hablar de antielitismo como ejemplo de la cerrazón cultural de la gente de a pie. La tesis es que, al rechazar los intelectuales y, por tanto, la inteligencia, la gente corriente demuestra no ser capaz de evolucionar. Esta explicación es muy cómoda para la clase dominante y la estructura tecnológica, que así se libera de cualquier responsabilidad. Pero lo que rechazan las clases populares no es el principio ni la existencia de una élite, sino a una clase dirigente que no brilla ni por su inteligencia ni por su nivel cultural. Lo que llaman antielitismo no es en realidad sino la crítica a una clase dirigente mediocre que demuestra a diario su incompetencia. Ese pequeño mundo superior cuyo horizonte se limita al mercado, que no siente ya ningún interés por el bien común y cuya moral se limita a un progresismo de cartón-piedra ¿puede seguir sirviendo de modelo? Sensatamente, las personas de a pie dicen que no.</p><p class=''>Pero eso no significa que rechacen lo bueno ni que sean incapaces de reconocerlo e inspirarse en ello. Lo que critican es la pequeña tecnoestructura oligárquica que se considera a sí misma élite. Hay que recordar que las clases populares nunca se han opuesto a la excelencia, sino todo lo contrario. No hace tanto tiempo que la izquierda —especialmente el Partido Comunista— intentaba utilizar la educación popular para crear élites a partir de orígenes modestos. La cultura, la educación y una cierta trascendencia han acompañado siempre a la sociedad popular. Lo que le preocupa no es la existencia de las élites, sino para qué sirven hoy en día. En lugar de responsabilizar a la ENA, Macron debería plantearse la incompetencia de las clases dirigentes y su alejamiento cultural de la gente corriente; y, sobre todo, responder a las peticiones concretas, es decir, dedicarse más a la política y menos a la comunicación.</p><p class=''><b>Christophe Guilluy </b>es geógrafo, y autor de<i> No society: el fin de la clase media occidental</i> (Taurus).</p><p class=''>Traducción de <b>María Luisa Rodríguez Tapia</b></p></div>",
-      epigraph: "Tribuna",
-      excrept: "La supresión de la prestigiosa Escuela Nacional de Administración suena más a operación de propaganda del presidente que a una respuesta concreta a los problemas de los ciudadanos",
-      premium: false
-    },
-    {
-      title: "Un gran salto verde",
-      id: 2,
-      media: "El Pais",
-      writer: "",
+      author: "Autor 1",
       date: "24-04-2021",
       img: "https://imagenes.elpais.com/resizer/AAwYcBUZn7OenREeLjgFZiHC8-g=/828x0/filters:focal(4035.000060200691x2735.5000408366323:4045.000060200691x2745.5000408366323)/cloudfront-eu-central-1.images.arcpublishing.com/prisa/7KSOM52VLJAVXC4VMXHS6SSE6M.jpg",
-      fullcontent: "<p class=''>Este año puede marcar un importante punto de inflexión en la lucha contra el cambio climático. Dos acontecimientos ocurridos esta semana ofrecen motivo para la esperanza y acercan a los objetivos fijados en el Acuerdo de París: evitar que el incremento de la temperatura media global del planeta supere los 2ºC respecto a los niveles preindustriales. Por un lado, <a href='https://elpais.com/clima-y-medio-ambiente/2021-04-22/biden-promete-recortar-las-emisiones-de-ee-uu-hasta-un-52-a-finales-de-esta-decada.html' target='_blank' data-link-track-dtm=''>la vuelta de Estados Unidos a la lucha contra el cambio climático bajo la presidencia de Biden</a>, con una renovada voluntad de liderazgo mundial; por otro, el acuerdo adoptado por los Gobiernos de los 27 países de la UE y el Parlamento europeo para <a href='https://elpais.com/clima-y-medio-ambiente/2021-04-21/europa-blindara-sus-objetivos-de-lucha-contra-el-cambio-climatico-en-una-ley.html' target='_blank' data-link-track-dtm=''>blindar con una ley los compromisos de reducción de emisiones y transición energética</a> alcanzados tras arduas negociaciones. Ambos desarrollos son muy positivos.</p><p class=''>Mientras el mundo lucha contra la pandemia, la otra gran crisis, la climática, sigue su curso y el coste de la inacción se hace cada vez más oneroso. Sin el compromiso de EE UU, el país que más ha contribuido al calentamiento global, sería prácticamente imposible alcanzar los objetivos del Acuerdo del París a tiempo para evitar la catástrofe. Con el 13,1% de todas las emisiones, sigue siendo el segundo mayor emisor del mundo después de China (26,6%). Por eso es tan importante que el presidente<a href='https://elpais.com/clima-y-medio-ambiente/2021-04-22/biden-busca-recuperar-el-liderazgo-climatico-para-ee-uu-con-un-ambicioso-plan-de-reduccion-de-emisiones.html' target='_blank' data-link-track-dtm=''> Joe Biden se haya comprometido en una cumbre</a> a reducir a la mitad en diez años las emisiones de CO2 respecto a los niveles de 2005 y a lograr que la totalidad del sistema eléctrico esté libre de carbono a partir de 2035.</p><p class=''>Teniendo en cuenta que la credibilidad de EE UU está muy mermada por su resistencia a sumarse al Protocolo de Kioto y por la decisión de Donald Trump de abandonar el Acuerdo de París, el compromiso de Biden es muy importante aunque se quede por debajo del de la Unión Europea en cuento a ambición. La UE, responsable del 9,2% de los gases que se emiten, sancionará con una ley su decisión de reducir un 55% las emisiones, pero no respecto de 2005, como EE UU, sino de 1990, y alcanzar la neutralidad del carbono en 2050. El objetivo de Biden se queda en realidad en un 40% de reducción si se toma como referencia las emisiones de 1990. Con todo, el paso debe ser valorado. La industria de los combustibles fósiles es un lobby muy poderoso en EE UU y Trump se dedicó en los cuatro años de mandato a desmantelar las políticas ambientales implantadas por Barack Obama.</p><p class=''>El hecho de que EE UU se sume ahora con decisión al liderazgo que ejerce la UE puede ayudar a decantar al resto de países a revisar al alza sus compromisos de reducción de emisiones, como acaban de hacer Canadá, Japón o Reino Unido. Apenas un tercio de los casi 200 países firmantes del Acuerdo de París han respondido a la llamada para acelerar la reducción de las emisiones. Especialmente importante es convencer a China de que lo haga. Su presidente, Xi Jinping, reiteró en la cumbre un compromiso que considera justo dado que la industrialización de China fue mucho más tardía: alcanzar el pico de emisiones en 2030 y a partir de entonces, reducirlas.<a href='https://elpais.com/clima-y-medio-ambiente/2021-04-22/2021-un-ano-decisivo-en-la-lucha-climatica.html' target='_blank' data-link-track-dtm=''> Si la UE y EE UU aúnan a partir de ahora sus esfuerzos políticos</a>, la transición hacia una nueva economía libre de carbono resulta factible y se vislumbra como una oportunidad indiscutible de progreso, no solo en términos ambientales, sino también económicos. Asumir compromisos es fundamental. Ahora corresponde cumplirlos.</p></div>",
+      fullcontent: AppConstants.LOREIPSUM,
       epigraph: "Editorial",
-      excrept: "El compromiso asumido por Biden da un fuerte impulso a la lucha contra el cambio climático",
-      premium: false
+      tags: ["Sociedad", "Economía"],
+      excrept: AppConstants.LOREIPSUMEXCREPT
     },
     {
-      title: "Recuperación",
-      id: 3,
-      media: "El País",
-      writer: "",
-      date: "28-04-2021",
-      img: "https://imagenes.elpais.com/resizer/Nw78YFa61Md7ktlo7WjEXMA272A=/828x0/filters:focal(2041.6666666666667x2015:2051.666666666667x2025)/cloudfront-eu-central-1.images.arcpublishing.com/prisa/XS3VVHFBIJODBBS3MKYDNA7HEY.jpg",
-      epigraph: "EDITORIAL",
-      excrept: "La aplicación del plan español debe servir para corregir sus limitaciones",
-      fullcontent: "<p>Desde este periódico hemos sostenido que las prioridades e inversiones propuestas están razonablemente perfiladas. En cuanto a las reformas estructurales, es pronto para emitir un juicio, ya que varias de las principales requieren aún bastante concreción. Sería deseable, aunque desgraciadamente parezca improbable, un mayor nivel de consenso político.</p><p>Para que el plan se muestre realmente certero en su gran objetivo —modernizar el sistema productivo—, la aprobación de los proyectos concretos debe pasar ante todo el filtro de su contribución a una economía más competitiva.Son correctos los condicionantes de cohesión social y territorial, la atención a la brecha de género y en general los objetivos sociales, también porque sin ellos no se entiende una economía del siglo XXI.Pero la activación de una política industrial de vanguardia debe ser prioritaria.Un ejemplo concreto: el plan de eficiencia energética en la vivienda tiene virtudes sociales —entre otras cosas por su intensidad en mano de obra— y ecológicas; pero será poco transformador si no va de la mano de un eficaz impulso a las capacidades tecnológicas y productivas en el sector.< /p><p>La presentación del plan italiano por el primer ministro Mario Draghi también ofrece motivos de reflexión.Por ejemplo, por su especial énfasis en el cambio educativo, de la formación, que se antoja inteligente.Otro aspecto mejorable del proyecto español radica en su gobernanza, muy circunscrita al ámbito de las administraciones.Los consejos asesores con participación de la sociedad civil pueden y deben tomar aliento para asentar la complicidad público - privada.Y la colaboración de las auditoras con la Intervención General de la Administración en la vigilancia y control de los proyectos puede realzarla.< /p><p> Claro está que el esquema de gobernanza podría haber mejorado desde el inicio de haberse fraguado un consenso político, con compromisos claros entre Gobierno y oposición, como ha sucedido en otros países.El caso italiano, con casi todo el arco parlamentario respaldando al Gobierno de Draghi, recuerda que otro clima político es posible.Pero España se halla instalada en una dinámica de conflicto político permanente.La campaña para las elecciones de Madrid ha exacerbado la polarización, y muy especialmente la deriva del extremismo populista, racista y ultra, que es preocupante.Frente a ello es precisa una inquebrantable firmeza democrática.Pero este importante problema no debería ser un factor inhibidor de la búsqueda de mayores dosis de consenso entre los principales partidos en las políticas más trascendentales.</p>",
-      premium: true
+      title: "Artículo 2",
+      id: "2",
+      media: "El Mundo",
+      author: "Autor 2",
+      date: "24-04-2021",
+      img: "https://imagenes.elpais.com/resizer/AAwYcBUZn7OenREeLjgFZiHC8-g=/828x0/filters:focal(4035.000060200691x2735.5000408366323:4045.000060200691x2745.5000408366323)/cloudfront-eu-central-1.images.arcpublishing.com/prisa/7KSOM52VLJAVXC4VMXHS6SSE6M.jpg",
+      fullcontent: AppConstants.LOREIPSUM,
+      epigraph: "Economía",
+      tags: ["Economía"],
+      excrept: AppConstants.LOREIPSUMEXCREPT
+    },
+    {
+      title: "Artículo 3",
+      id: "3",
+      media: "El Pais",
+      author: "Autor 3",
+      date: "24-04-2021",
+      img: "https://imagenes.elpais.com/resizer/AAwYcBUZn7OenREeLjgFZiHC8-g=/828x0/filters:focal(4035.000060200691x2735.5000408366323:4045.000060200691x2745.5000408366323)/cloudfront-eu-central-1.images.arcpublishing.com/prisa/7KSOM52VLJAVXC4VMXHS6SSE6M.jpg",
+      fullcontent: AppConstants.LOREIPSUM,
+      epigraph: "Epigrafe 3",
+      tags: ["Deportes"],
+      excrept: AppConstants.LOREIPSUMEXCREPT
     }
   ]
   error: string;
@@ -68,12 +74,50 @@ export class ArticleService {
 
   getRecomendedArticles() {
     this._utilitiesService.loading = true;
-    return this.http.post(environment.baseUrl + 'article/recomended', "");
+    return of(this.demoArticles);
+    // return this.http.post(environment.baseUrl + 'article/recomended', "");
+  }
+
+  getDBMedias() {
+    return this.http.post(environment.baseUrl + 'article/medias', "");
   }
 
   getMedias() {
+    let medias = [];
+    this.demoArticles.forEach(article => {
+      if (medias.indexOf(article.media) === -1) {
+        medias.push(article.media)
+      }
+    });
     this._utilitiesService.loading = true;
-    return this.http.post(environment.baseUrl + 'article/medias', "");
+    return of(medias);
+    // return this.http.post(environment.baseUrl + 'article/medias', "");
+  }
+
+  getAuthors() {
+    let authors = [];
+    this.demoArticles.forEach(article => {
+      if (authors.indexOf(article.author) === -1) {
+        authors.push(article.author)
+      }
+    });
+    this._utilitiesService.loading = true;
+    return of(authors);
+    // return this.http.post(environment.baseUrl + 'article/medias', "");
+  }
+
+  getTags() {
+    let tags = [];
+    this.demoArticles.forEach(article => {
+      article.tags.forEach(tag => {
+        if (tags.indexOf(tag) === -1) {
+          tags.push(tag)
+        }
+      });
+    });
+    this._utilitiesService.loading = true;
+    return of(tags);
+    // return this.http.post(environment.baseUrl + 'article/medias', "");
   }
 
   getArticlesByMedia(media) {
@@ -82,6 +126,7 @@ export class ArticleService {
   }
 
   confirmReadPremium(article) {
+    article.tags = article.tags.toString();
     this._utilitiesService.loading = true;
     return this.http.post(environment.baseUrl + 'article/confirmreadpremium', article);
   }
@@ -89,6 +134,11 @@ export class ArticleService {
   buyPremiumAccess(amount) {
     this._utilitiesService.loading = true;
     return this.http.post(environment.baseUrl + 'article/buypremiumaccess', amount);
+  }
+
+  buyAccess(type) {
+    this._utilitiesService.loading = true;
+    return this.http.post(environment.baseUrl + 'article/buyaccess', type);
   }
 
 }

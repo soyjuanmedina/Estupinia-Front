@@ -6,4 +6,5 @@ export interface User {
   password?: string;
   subscription?: string;
   premium_remain?: number;
+  buyedArticles?: string;
 }

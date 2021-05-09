@@ -1,0 +1,19 @@
+// Variables de colores en app/sass/_variables.scss
+
+import { trigger, state, style, animate, transition, keyframes, query, stagger } from '@angular/animations';
+
+export class AppConstants {
+  public static STATUS = {
+    OK: "0",
+    ALERT: "1",
+    ERROR: "2",
+    RESENDACTIVATION: "31",
+    PAPID_REMOVED: "32",
+    PAPID_CREATED: "33"
+  }
+  public static CERO = "0";
+
+  public static LOREIPSUM = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse elit arcu, consequat vel justo et, sodales aliquam dolor. Integer et leo neque. Aenean maximus felis id lorem cursus egestas. Duis ex ligula, sodales eu efficitur at, auctor ultrices tellus. Nunc ac malesuada dui. Cras ut ante ultrices massa imperdiet gravida et vitae odio. Suspendisse tellus odio, finibus at interdum eu, cursus quis felis. Aenean eros lectus, commodo vitae mauris id, rhoncus consequat urna. Vestibulum elementum feugiat blandit. Aenean sit amet ipsum eu risus dapibus tincidunt. Nam commodo augue a sem placerat, et ultricies sem tempus. Donec tellus sapien, cursus et velit a, blandit ornare turpis. Fusce porta eleifend magna, a maximus neque facilisis dapibus. Proin vitae auctor lectus, vitae accumsan leo. Morbi aliquet mi id metus faucibus, eget tincidunt nibh bibendum. </p><p>Sed non sodales massa.Etiam sit amet diam at odio ultricies mattis a id eros.Praesent varius, nibh quis varius pulvinar, neque urna accumsan tellus, eu cursus purus odio non sem.Fusce lacus lacus, pretium in luctus eget, gravida sed nulla.Nam molestie rhoncus ligula.Aliquam erat volutpat.Integer egestas blandit malesuada.Mauris enim mauris, laoreet vel metus eget, hendrerit venenatis nunc.Duis pretium dui ut tincidunt malesuada.Fusce ut pharetra diam, sit amet commodo tellus.Vestibulum risus erat, iaculis et nibh interdum, aliquet lobortis lorem.</p><p>Proin ex arcu, euismod non justo id, porta egestas risus.Vivamus mollis vel leo et volutpat.Etiam quis leo sed augue pretium rhoncus.Interdum et malesuada fames ac ante ipsum primis in faucibus.Vivamus quis tortor dictum, maximus justo eu, interdum nibh.Ut eget tellus non justo sagittis porta.Duis sagittis sit amet magna accumsan interdum.Nulla ut pulvinar justo.Etiam vitae accumsan ex, a rutrum arcu.Donec sit amet fringilla nibh.In et placerat lorem.Aenean urna quam, consequat sed eros nec, aliquam elementum lorem.Praesent sagittis est gravida, convallis ante nec, scelerisque nisi.Nullam non venenatis neque.Mauris nec massa neque.</p><p>Praesent eget tempor dolor.Donec in dapibus ante.Proin interdum nibh et nibh fermentum fermentum.Etiam ultricies augue id sem laoreet laoreet.Maecenas euismod vulputate sapien, ac pulvinar elit tempor non.Duis ac nulla nisi.Sed ullamcorper metus in accumsan varius.Sed aliquet ligula eu mauris mollis, id eleifend nisl dapibus.Fusce egestas dolor ac tempor pharetra.Nullam eget elit vel elit efficitur rhoncus in vitae purus.In velit libero, suscipit nec maximus in, laoreet nec diam.</p><p>Donec quis finibus nisl, non efficitur augue.Etiam pellentesque volutpat purus vel vehicula.Cras vitae aliquet lacus.Donec vel posuere elit.Phasellus quis dui sollicitudin, mollis lacus a, commodo lectus.Aliquam consequat nulla et magna auctor cursus.Suspendisse eu tortor lacinia tellus posuere porta eu interdum lectus.Phasellus ac dui nisi.Quisque gravida, felis ullamcorper tristique accumsan, urna orci porta tellus, bibendum facilisis nulla sapien vitae dui.Morbi id tristique lacus.Morbi in pharetra lectus.Aliquam at velit aliquet ipsum accumsan rutrum eu non dui.Sed mollis sagittis urna, at venenatis tellus viverra et.Vivamus egestas id velit a sagittis.Donec dignissim urna et risus faucibus congue.Donec massa tortor, condimentum non justo non, gravida feugiat mauris."
+  public static LOREIPSUMEXCREPT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse elit arcu, consequat vel justo et, sodales aliquam dolor."
+
+}

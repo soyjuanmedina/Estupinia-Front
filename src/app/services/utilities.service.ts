@@ -29,7 +29,7 @@ export class UtilitiesService {
   }
 
   cloneObject(object) {
-    return Object.assign({}, object);
+    return JSON.parse(JSON.stringify(object));
   }
 
 }
