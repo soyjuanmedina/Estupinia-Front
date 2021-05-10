@@ -134,7 +134,7 @@ export class ArticleService {
     },
     {
       title: "Artículo 10",
-      id: "1",
+      id: "10",
       media: "El Pais",
       author: "Autor 1",
       date: "24-04-2021",
@@ -146,7 +146,7 @@ export class ArticleService {
     },
     {
       title: "Artículo 11",
-      id: "2",
+      id: "11",
       media: "El Mundo",
       author: "Autor 11",
       date: "24-04-2021",
@@ -158,7 +158,7 @@ export class ArticleService {
     },
     {
       title: "Artículo 12",
-      id: "3",
+      id: "12",
       media: "El Pais",
       author: "Autor 12",
       date: "24-04-2021",
@@ -206,7 +206,7 @@ export class ArticleService {
     },
     {
       title: "Artículo 16",
-      id: "1",
+      id: "16",
       media: "El Pais",
       author: "Autor 16",
       date: "24-04-2021",
@@ -218,7 +218,7 @@ export class ArticleService {
     },
     {
       title: "Artículo 17",
-      id: "2",
+      id: "17",
       media: "El Mundo",
       author: "Autor 17",
       date: "24-04-2021",
