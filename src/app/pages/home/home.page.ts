@@ -180,7 +180,6 @@ export class HomePage implements OnInit {
   }
 
   clearFilters() {
-    console.log("clearFilters")
     delete this.selectedMedia;
     delete this.selectedAuthor;
     delete this.selectedTag;
