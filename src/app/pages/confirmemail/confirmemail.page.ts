@@ -27,7 +27,7 @@ export class ConfirmemailPage implements OnInit {
     }
     this._userService.confirmEmail(params).subscribe(data => {
       if (data) {
-        this.confirmMailMessageSuccess = 'Gracias por confirmar tu mail. Ahora ya puedes loguearte en Coolumns';
+        this.confirmMailMessageSuccess = 'Gracias por confirmar tu mail. Ahora ya puedes loguearte en Estupinia';
       } else {
         this.confirmMailMessageDanger = 'No existe el usuario'
       }

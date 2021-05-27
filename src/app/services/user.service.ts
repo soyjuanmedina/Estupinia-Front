@@ -16,15 +16,15 @@ export class UserService {
   error: string;
 
   constructor(private http: HttpClient, private _utilitiesService: UtilitiesService, public router: Router) {
-    if (typeof sessionStorage.getItem('columns-user') !== 'undefined') {
-      this.user = JSON.parse(sessionStorage.getItem('columns-user'));
+    if (typeof sessionStorage.getItem('estupinia-user') !== 'undefined') {
+      this.user = JSON.parse(sessionStorage.getItem('estupinia-user'));
     }
   }
 
   saveUser(user): void {
     this.user = user;
-    window.sessionStorage.removeItem('columns-user');
-    window.sessionStorage.setItem('columns-user', JSON.stringify(user));
+    window.sessionStorage.removeItem('estupinia-user');
+    window.sessionStorage.setItem('estupinia-user', JSON.stringify(user));
   }
 
   getUser() {
@@ -37,8 +37,8 @@ export class UserService {
           this._utilitiesService.alertError = "Cuenta inactiva, por favor, confirme su mail antes de loguearse"
           console.log('asdf',);
         } else {
-          window.sessionStorage.removeItem('columns-user');
-          window.sessionStorage.setItem('columns-user', JSON.stringify(this.user));
+          window.sessionStorage.removeItem('estupinia-user');
+          window.sessionStorage.setItem('estupinia-user', JSON.stringify(this.user));
           this.router.navigate(['/']);
         }
       },
@@ -54,12 +54,12 @@ export class UserService {
   }
 
   public saveToken(token: string): void {
-    window.sessionStorage.removeItem('columns-token');
-    window.sessionStorage.setItem('columns-token', token);
+    window.sessionStorage.removeItem('estupinia-token');
+    window.sessionStorage.setItem('estupinia-token', token);
   }
 
   public getToken(): string {
-    return sessionStorage.getItem('columns-token');
+    return sessionStorage.getItem('estupinia-token');
   }
 
 }

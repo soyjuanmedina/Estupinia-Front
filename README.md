@@ -1,3 +1,3 @@
-# Columns
+# Estupinia
 
-Un proyecto para leer diferentes columnistas en un solo lugar.
+Un proyecto para crear charlas.

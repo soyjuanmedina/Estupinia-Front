@@ -1,11 +1,11 @@
 {
-  "name": "columns",
+  "name": "estupinia",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "build": "ng build --prod --base-href=/Columns-Front/",
-    "analyze": "ng build --prod --base-href=/Columns-Front/ --stats-json && webpack-bundle-analyzer ./docs/stats-es2015.json",
+    "build": "ng build --prod --base-href=/Estupinia-Front/",
+    "analyze": "ng build --prod --base-href=/Estupinia-Front/ --stats-json && webpack-bundle-analyzer ./docs/stats-es2015.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
