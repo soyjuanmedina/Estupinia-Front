@@ -1,5 +1,5 @@
-$main-color: #f5f0e1;
-$secondary-color: #1e3d59;
+$main-color: #1e3d59;
+$secondary-color: #f5f0e1;
 
 
 $primary: $secondary-color;
@@ -12,12 +12,11 @@ body{
 
 .bg-main-color{
   background-color: $main-color;
-  color: whitesmoke
+  color: $secondary-color
 }
 
 .bg-secondary-color{
   background-color: $secondary-color;
-  color: whitesmoke
 }
 
 .bg-secondary{
