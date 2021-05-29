@@ -37,28 +37,24 @@ declare let $: any;
 })
 export class HomePage implements OnInit {
 
-  selectedArticle: Article;
-  selectedMedia: string;
-  selectedAuthor: string;
-  selectedTag: string;
+  selectedUser: Article;
+  selectedSchedule: string;
+  selectedTheme: string;
   isVisible = $('#searchingAccordion').is(":visible");
 
-  constructor(public _articleService: ArticleService, public _userService: UserService,
+  constructor(public _userService: UserService,
     public _utilitiesService: UtilitiesService, public router: Router) {
     this._utilitiesService.clearAlerts();
     // Wake Up Heroku
-    this._articleService.getDBMedias();
-    if (!this._articleService.articles) {
-      this.getRecomendedArticles();
+    this._userService.getDBMedias();
+    if (!this._userService.users) {
+      this.getRecomendedUsers();
     }
-    if (!this._articleService.medias) {
-      this.getMedias();
+    if (!this._userService.schedules) {
+      this.getSchedules();
     }
-    if (!this._articleService.authors) {
-      this.getAuthors();
-    }
-    if (!this._articleService.tags) {
-      this.getTags();
+    if (!this._userService.themes) {
+      this.getThemes();
     }
   }
 
@@ -66,54 +62,41 @@ export class HomePage implements OnInit {
     this.isVisible = !this.isVisible;
   }
 
-  getMedias() {
-    this._articleService.getMedias().subscribe(
+  getSchedules() {
+    this._userService.getSchedules().subscribe(
       data => {
         let response = data as any;
-        this._articleService.medias = response;
+        this._userService.schedules = response;
         this._utilitiesService.loading = false;
       },
       err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los medios"
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los horarios"
         this._utilitiesService.loading = false;
       }
     );
   }
 
-  getAuthors() {
-    this._articleService.getAuthors().subscribe(
+  getThemes() {
+    this._userService.getThemes().subscribe(
       data => {
         let response = data as any;
-        this._articleService.authors = response;
+        this._userService.themes = response;
         this._utilitiesService.loading = false;
       },
       err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los autores"
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los temas"
         this._utilitiesService.loading = false;
       }
     );
   }
 
-  getTags() {
-    this._articleService.getTags().subscribe(
-      data => {
-        let response = data as any;
-        this._articleService.tags = response;
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener las tags"
-        this._utilitiesService.loading = false;
-      }
-    );
-  }
 
-  getRecomendedArticles() {
-    this._articleService.getRecomendedArticles().subscribe(
+  getRecomendedUsers() {
+    this._userService.getRecomendedUsers().subscribe(
       data => {
         let response = data as any;
-        this._articleService.articles = response;
-        this._articleService.allArticles = this._utilitiesService.cloneObject(this._articleService.articles);
+        this._userService.users = response;
+        this._userService.allUsers = this._utilitiesService.cloneObject(this._userService.users);
         this._utilitiesService.loading = false;
       },
       err => {
@@ -123,34 +106,21 @@ export class HomePage implements OnInit {
     );
   }
 
-  confirmReadPremium() {
-    this._articleService.confirmReadPremium(this.selectedArticle).subscribe(
-      data => {
-        this._utilitiesService.loading = false;
-        this._userService.saveUser(data);
-        this.router.navigate(['/article', this.selectedArticle.id]);
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al comprar el artículo"
-        this._utilitiesService.loading = false;
-      }
-    );
-  }
 
   buyAccess() {
     this.router.navigate(['/paymentgateway']);
   }
 
-  showArticle(article) {
-    this.selectedArticle = article;
-    if (this._userService.user.buyedArticles && this._userService.user.buyedArticles.includes(this.selectedArticle.id)) {
-      this.router.navigate(['/article', this.selectedArticle.id]);
+  showUser(user) {
+    this.selectedUser = user;
+    if (this._userService.user.buyedArticles && this._userService.user.buyedArticles.includes(this.selectedUser.id)) {
+      this.router.navigate(['/user', this.selectedUser.id]);
     } else {
       $('#premiumModal').modal('show');
     }
   }
 
-  getArticlesByMedia() {
+  getUsersByschedule() {
     /* if (!this.selectedMedia.url) {
       this.getRecomendedArticles();
     } else {
@@ -167,23 +137,19 @@ export class HomePage implements OnInit {
       );
       this.mediaSearchedArticles = this._utilitiesService.cloneObject(this.selectedMedia);
     } */
-    this._articleService.articles = this._articleService.allArticles.filter(article => article.media == this.selectedMedia);
+    this._userService.users = this._userService.allUsers.filter(user => user.schedule.includes(this.selectedSchedule));
   }
 
-  getArticlesByAuthor() {
-    this._articleService.articles = this._articleService.allArticles.filter(article => article.author == this.selectedAuthor);
+  getUsersByTheme() {
+    this._userService.users = this._userService.allUsers.filter(user => user.themes.includes(this.selectedTheme));
+    // this._articleService.articles = this._articleService.allArticles.filter(article => article.author == this.selectedTheme);
   }
 
-  getArticlesByTag() {
-    console.log(this.selectedTag);
-    this._articleService.articles = this._articleService.allArticles.filter(article => article.tags.includes(this.selectedTag));
-  }
 
   clearFilters() {
-    delete this.selectedMedia;
-    delete this.selectedAuthor;
-    delete this.selectedTag;
-    this._articleService.articles = this._articleService.allArticles;
+    delete this.selectedTheme;
+    delete this.selectedSchedule;
+    this._userService.users = this._userService.allUsers;
   }
 
 
