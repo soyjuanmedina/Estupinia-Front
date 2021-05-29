@@ -34,23 +34,6 @@ export class PaymentGatewayPage implements OnInit {
   }
 
 
-
-  buyPremiumAccess() {
-    this._articleService.buyPremiumAccess(this.buyForm.value.amount).subscribe(
-      data => {
-        this._utilitiesService.loading = false;
-        this._userService.user.premium_remain = this._userService.user.premium_remain + this.buyForm.value.amount;
-        this._userService.saveUser(this._userService.user);
-        this._utilitiesService.alertSuccess = "La compra se ha efectuado correctamente, ahora tiene acceso a "
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al realizar la compra"
-        this._utilitiesService.loading = false;
-      }
-    );
-
-  }
-
   ngOnInit(): void {
   }
 

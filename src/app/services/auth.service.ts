@@ -15,13 +15,6 @@ const httpOptions = {
 })
 export class AuthService {
 
-  user: User = {
-    email: "user@user.com",
-    name: "Juan",
-    surname: "Español",
-    subscription: "Free"
-  }
-
   constructor(private http: HttpClient, private _userService: UserService, private router: Router,
     public _utilitiesService: UtilitiesService) { }
 

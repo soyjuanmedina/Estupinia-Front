@@ -1,11 +1,15 @@
+import { Schedule } from "./schedule";
+import { Theme } from "./theme";
+
 export interface User {
-  email: string;
-  active?: boolean;
   id?: number;
+  active?: boolean;
   name?: string;
   surname?: string;
+  email: string;
   password?: string;
-  subscription?: string;
-  premium_remain?: number;
-  buyedArticles?: string;
+  themes?: Array<Theme>;
+  stars?: Number;
+  acceptReservations?: boolean;
+  schedule?: Schedule;
 }

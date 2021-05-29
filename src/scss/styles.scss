@@ -4,6 +4,9 @@ $secondary-color: #1e3d59;
 
 $primary: $secondary-color;
 $secondary: $main-color;
+$success: $secondary-color;
+
+@import "bootstrap";
 
 
 body{
@@ -12,20 +15,20 @@ body{
 
 .bg-main-color{
   background-color: $main-color;
-  color: whitesmoke
+  color: $secondary-color;
 }
 
 .bg-secondary-color{
   background-color: $secondary-color;
-  color: whitesmoke
+  color: $main-color;
 }
 
 .bg-secondary{
-  color: whitesmoke
+  color: $main-color;
 }
 
 .bg-secondary:hover{
-  color: $secondary-color;
+  color: $main-color;
 }
 
 .bor{
@@ -59,8 +62,9 @@ body{
 }
 
 .form-control:focus {
-    background-color: whitesmoke;
+    background-color: $secondary-color;
     box-shadow: none;
+    color: $main-color;
 }
 
 .fa-grey{
@@ -83,7 +87,7 @@ body{
     border: none;
     padding: 20px;
     background-color: $main-color;
-    color: #fff
+    color: $secondary-color
 }
 
 
