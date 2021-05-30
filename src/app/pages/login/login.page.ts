@@ -36,6 +36,7 @@ export class LoginPage implements OnInit {
         delete this._utilitiesService.alertError;
         this._userService.saveToken(response.accessToken);
         this._userService.getUser();
+        this._userService.getConectedUsers();
         this._utilitiesService.loading = false;
       },
       err => {

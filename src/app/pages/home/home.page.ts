@@ -52,7 +52,7 @@ export class HomePage implements OnInit {
     // Wake Up Heroku
     this._userService.getDBMedias();
     if (!this._userService.conectedUsers) {
-      this.getConectedUsers();
+      this._userService.getConectedUsers();
     }
     if (!this._userService.themes) {
       this._userService.getThemes();
@@ -90,22 +90,6 @@ export class HomePage implements OnInit {
         }
       );
     } */
-
-
-  getConectedUsers() {
-    this._userService.getConectedUsers().subscribe(
-      data => {
-        let response = data as any;
-        this._userService.conectedUsers = response;
-        this._userService.allUsers = this._utilitiesService.cloneObject(this._userService.conectedUsers);
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
-        this._utilitiesService.loading = false;
-      }
-    );
-  }
 
   getUsersToDate(theme) {
     console.log("getUsersToDate");

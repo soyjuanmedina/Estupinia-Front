@@ -80,8 +80,8 @@ export class UserService {
   }
 
   getUserToComunicate(id) {
-    if (this.demoUsers) {
-      return this.demoUsers.find(user => user.id == id);
+    if (this.conectedUsers) {
+      return this.conectedUsers.find(user => user.id == id);
     }
   }
 
@@ -136,6 +136,7 @@ export class UserService {
   }
 
   getThemes() {
+    this._utilitiesService.loading = true;
     this.http.post(environment.baseUrl + 'theme/get', "").subscribe(
       data => {
         let response = data as any;
@@ -146,13 +147,22 @@ export class UserService {
         this._utilitiesService.alertError = "Se ha producido un error al obtener los temas"
         this._utilitiesService.loading = false;
       }
-    );;
+    );
   }
 
   getConectedUsers() {
     this._utilitiesService.loading = true;
-    return of(this.demoUsers);
-    // return this.http.post(environment.baseUrl + 'article/recomended', "");
+    this.http.post(environment.baseUrl + 'user/getconnected', "").subscribe(
+      data => {
+        let response = data as any;
+        this.conectedUsers = response;
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los conectedUsers"
+        this._utilitiesService.loading = false;
+      }
+    );
   }
 
   getUsersToDate(theme) {
