@@ -12,6 +12,7 @@ export class UtilitiesService {
 
   alertSuccess: string;
   alertError: string;
+  alert: string;
   loading: boolean;
 
   constructor(private http: HttpClient) {

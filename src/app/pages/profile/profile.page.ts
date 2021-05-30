@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { User } from '../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
@@ -15,12 +15,13 @@ export class ProfilePage implements OnInit {
 
   editedUser;
 
-  ProfileForm = new FormGroup({
+  profileForm = new FormGroup({
     name: new FormControl(''),
     surname: new FormControl(''),
     email: new FormControl('', [
       Validators.required,
       Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+    themes: new FormArray([]),
     password: new FormControl('', [
       Validators.required]),
     confirmPassword: new FormControl('', [
@@ -32,18 +33,27 @@ export class ProfilePage implements OnInit {
     public _utilitiesService: UtilitiesService, public _userService: UserService) {
     this.editedUser = this._utilitiesService.cloneObject(this._userService.user);
     this.editedUser.confirmPassword = '';
+    if (!this._userService.themes) {
+      this._userService.getThemes();
+    }
 
   }
 
   updateProfile() {
-    console.log('updateProfile()');
-    console.log('this.ProfileForm', this.ProfileForm.controls.email.markAsDirty);
+    this._userService.updateUser(this.editedUser);
   }
 
-  addStreamingService(streamingServices) {
-    if (this.editedUser.streamingServices.filter(e => e.id === streamingServices.id).length == 0) {
-      this.editedUser.streamingServices.push(streamingServices)
-    }
+  isThemeInUserThemes(theme) {
+    return this.editedUser.themes.some(editedUserThemes => theme.id === editedUserThemes.id)
+  }
+
+  addUserTheme(theme) {
+    this.profileForm.markAsDirty();
+    if (this.isThemeInUserThemes(theme)) {
+      this.editedUser.themes = this.editedUser.themes.filter(editedUserTheme => editedUserTheme.id != theme.id)
+    } else {
+      this.editedUser.themes.push(theme);
+    };
   }
 
   removeStreamingServices(streamingServices) {

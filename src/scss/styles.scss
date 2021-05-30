@@ -83,6 +83,14 @@ body{
     border-radius: 3px !important;
 }
 
+.btn:hover{
+  color: $secondary-color;
+}
+
+.searchBox{
+  width: 40%;
+}
+
 .formcard {
     border: none;
     padding: 20px;
@@ -117,3 +125,14 @@ body {
 
 // END Append footer to bottom
 
+
+#agora_local{
+    height: 500px;
+    width: 500px;
+    display: inline-block;
+}
+
+.remote-containers div{
+    height: 250px;
+    width: 250px;
+}

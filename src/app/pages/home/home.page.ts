@@ -4,6 +4,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Article } from '../../interfaces/article';
 import { Media } from '../../interfaces/media';
+import { Schedule } from '../../interfaces/schedule';
+import { ScheduleDay } from '../../interfaces/scheduleDay';
+import { Theme } from '../../interfaces/theme';
 import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
@@ -38,8 +41,9 @@ declare let $: any;
 export class HomePage implements OnInit {
 
   selectedUser: Article;
-  selectedSchedule: string;
-  selectedTheme: string;
+  selectedWeekDay: string;
+  selectedTheme: Theme;
+  searchedTheme: Theme;
   isVisible = $('#searchingAccordion').is(":visible");
 
   constructor(public _userService: UserService,
@@ -47,14 +51,11 @@ export class HomePage implements OnInit {
     this._utilitiesService.clearAlerts();
     // Wake Up Heroku
     this._userService.getDBMedias();
-    if (!this._userService.users) {
-      this.getRecomendedUsers();
-    }
-    if (!this._userService.schedules) {
-      this.getSchedules();
+    if (!this._userService.conectedUsers) {
+      this.getConectedUsers();
     }
     if (!this._userService.themes) {
-      this.getThemes();
+      this._userService.getThemes();
     }
   }
 
@@ -62,45 +63,60 @@ export class HomePage implements OnInit {
     this.isVisible = !this.isVisible;
   }
 
-  getSchedules() {
-    this._userService.getSchedules().subscribe(
+  /*   getSchedules() {
+      this._userService.getSchedules().subscribe(
+        data => {
+          let response = data as any;
+          this._userService.schedules = response;
+          this._utilitiesService.loading = false;
+        },
+        err => {
+          this._utilitiesService.alertError = "Se ha producido un error al obtener los horarios"
+          this._utilitiesService.loading = false;
+        }
+      );
+    } */
+
+  /*   getThemes() {
+      this._userService.getThemes().subscribe(
+        data => {
+          let response = data as any;
+          this._userService.themes = response;
+          this._utilitiesService.loading = false;
+        },
+        err => {
+          this._utilitiesService.alertError = "Se ha producido un error al obtener los temas"
+          this._utilitiesService.loading = false;
+        }
+      );
+    } */
+
+
+  getConectedUsers() {
+    this._userService.getConectedUsers().subscribe(
       data => {
         let response = data as any;
-        this._userService.schedules = response;
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los horarios"
-        this._utilitiesService.loading = false;
-      }
-    );
-  }
-
-  getThemes() {
-    this._userService.getThemes().subscribe(
-      data => {
-        let response = data as any;
-        this._userService.themes = response;
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los temas"
-        this._utilitiesService.loading = false;
-      }
-    );
-  }
-
-
-  getRecomendedUsers() {
-    this._userService.getRecomendedUsers().subscribe(
-      data => {
-        let response = data as any;
-        this._userService.users = response;
-        this._userService.allUsers = this._utilitiesService.cloneObject(this._userService.users);
+        this._userService.conectedUsers = response;
+        this._userService.allUsers = this._utilitiesService.cloneObject(this._userService.conectedUsers);
         this._utilitiesService.loading = false;
       },
       err => {
         this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
+        this._utilitiesService.loading = false;
+      }
+    );
+  }
+
+  getUsersToDate(theme) {
+    console.log("getUsersToDate");
+    this._userService.getUsersToDate(theme).subscribe(
+      data => {
+        let response = data as any;
+        this._userService.usersToDate = response;
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los usersToDate"
         this._utilitiesService.loading = false;
       }
     );
@@ -111,49 +127,47 @@ export class HomePage implements OnInit {
     this.router.navigate(['/paymentgateway']);
   }
 
-  showUser(user) {
-    this.selectedUser = user;
-    if (this._userService.user.buyedArticles && this._userService.user.buyedArticles.includes(this.selectedUser.id)) {
-      this.router.navigate(['/user', this.selectedUser.id]);
-    } else {
-      $('#premiumModal').modal('show');
-    }
+  comunicateToUser(user) {
+    this.router.navigate(['/usertocomunicate', user.id]);
   }
 
-  getUsersByschedule() {
-    /* if (!this.selectedMedia.url) {
-      this.getRecomendedArticles();
-    } else {
-      this._articleService.getArticlesByMedia(this.selectedMedia).subscribe(
-        data => {
-          let response = data as any;
-          this._articleService.articles = response;
-          this._utilitiesService.loading = false;
-        },
-        err => {
-          this._utilitiesService.alertError = "Se ha producido un error al obtener los artículos"
-          this._utilitiesService.loading = false;
-        }
-      );
-      this.mediaSearchedArticles = this._utilitiesService.cloneObject(this.selectedMedia);
+  getUsersByTheme(theme) {
+    this.getUsersToDate(theme);
+    this.filterConectedUsersByTheme(theme);
+  }
+  /* 
+    filterUsersByschedule() {
+      this._userService.users = this._userService.allUsers.filter(user => user.schedule.days.some(day => day.day == this.selectedWeekDay));
     } */
-    this._userService.users = this._userService.allUsers.filter(user => user.schedule.includes(this.selectedSchedule));
-  }
 
-  getUsersByTheme() {
-    this._userService.users = this._userService.allUsers.filter(user => user.themes.includes(this.selectedTheme));
+  filterConectedUsersByTheme(theme) {
+    this._userService.conectedUsers = [];
+    this._userService.allUsers.forEach((user) => {
+      user.themes.forEach((userTheme) => {
+        if (userTheme.id == theme.id) {
+          this._userService.conectedUsers.push(user);
+        }
+
+      })
+    })
+
+
+    this._userService.allUsers.filter(user => {
+      user.themes.some(conectedUsertheme => {
+        conectedUsertheme.id == theme.id
+      })
+    });
+
+    console.log(3, this._userService.conectedUsers);
     // this._articleService.articles = this._articleService.allArticles.filter(article => article.author == this.selectedTheme);
   }
 
 
   clearFilters() {
     delete this.selectedTheme;
-    delete this.selectedSchedule;
-    this._userService.users = this._userService.allUsers;
+    delete this.selectedWeekDay;
+    this._userService.conectedUsers = this._userService.allUsers;
   }
-
-
-
 
   ngOnInit(): void {
   }

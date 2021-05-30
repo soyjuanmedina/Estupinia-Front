@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { of } from "rxjs";
+import { Theme } from '../interfaces/theme';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,11 @@ import { of } from "rxjs";
 export class UserService {
 
   user: User;
-  users: Array<User>;
+  conectedUsers: Array<User>;
+  usersToDate: Array<User>;
   allUsers: Array<User>
-  schedules: Array<string>
-  themes: Array<string>
+  weekDays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+  themes;
   error: string;
 
   demoUsers: Array<User> = [
@@ -27,8 +29,16 @@ export class UserService {
       id: 1,
       name: "Juan",
       surname: "Medina",
-      schedule: ["10-2", "5-7"],
-      themes: ["moda", "ropa"]
+      themes: [{
+        id: 1,
+        name: "Actualidad"
+      },
+      {
+        id: 2,
+        name: "Economía"
+      }
+      ],
+      img: "assets/img/img-profile.png"
     },
     {
       email: "mail2@mail.com",
@@ -36,8 +46,11 @@ export class UserService {
       id: 2,
       name: "Manolo",
       surname: "Medina",
-      schedule: ["12-2", "9-12"],
-      themes: ["actualidad", "salud"]
+      themes: [{
+        id: 1,
+        name: "Actualidad"
+      },],
+      img: "assets/img/img-profile.png"
     }
   ]
 
@@ -47,10 +60,29 @@ export class UserService {
     }
   }
 
+  updateUser(user: User) {
+    console.log(1, user);
+    return this.http.post(environment.baseUrl + 'user/update', user).subscribe(
+      data => {
+        console.log(data);
+        this.user = data as User;
+      },
+      err => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
   saveUser(user): void {
     this.user = user;
     window.sessionStorage.removeItem('estupinia-user');
     window.sessionStorage.setItem('estupinia-user', JSON.stringify(user));
+  }
+
+  getUserToComunicate(id) {
+    if (this.demoUsers) {
+      return this.demoUsers.find(user => user.id == id);
+    }
   }
 
   getUser() {
@@ -61,7 +93,6 @@ export class UserService {
           delete this.user;
           sessionStorage.clear();
           this._utilitiesService.alertError = "Cuenta inactiva, por favor, confirme su mail antes de loguearse"
-          console.log('asdf',);
         } else {
           window.sessionStorage.removeItem('estupinia-user');
           window.sessionStorage.setItem('estupinia-user', JSON.stringify(this.user));
@@ -105,18 +136,26 @@ export class UserService {
   }
 
   getThemes() {
-    let themes = [];
-    this.demoUsers.forEach(user => {
-      if (themes.indexOf(user.themes) === -1) {
-        themes.push(user.themes)
+    this.http.post(environment.baseUrl + 'theme/get', "").subscribe(
+      data => {
+        let response = data as any;
+        this.themes = response;
+        this._utilitiesService.loading = false;
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los temas"
+        this._utilitiesService.loading = false;
       }
-    });
-    this._utilitiesService.loading = true;
-    return of(themes);
-    // return this.http.post(environment.baseUrl + 'article/medias', "");
+    );;
   }
 
-  getRecomendedUsers() {
+  getConectedUsers() {
+    this._utilitiesService.loading = true;
+    return of(this.demoUsers);
+    // return this.http.post(environment.baseUrl + 'article/recomended', "");
+  }
+
+  getUsersToDate(theme) {
     this._utilitiesService.loading = true;
     return of(this.demoUsers);
     // return this.http.post(environment.baseUrl + 'article/recomended', "");

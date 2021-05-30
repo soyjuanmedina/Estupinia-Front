@@ -1,0 +1,34 @@
+<div class="card mb-3 mt-2 p-1" *ngIf="userToComunicate">
+
+  <div class="d-flex justify-content-start m-2">
+    <h4 [routerLink]="['/']">
+      <i class="fas fa-arrow-circle-left"></i> Volver a la home
+    </h4>
+  </div>
+
+  <div class="row g-0">
+    <div class="col-md-4">
+      <p class="card-text"><small class="text-muted">Nombre: {{userToComunicate.name}}</small> |
+        <small class="text-muted">{{userToComunicate.email}}</small>
+      </p>
+      <img class="card-img" [src]="userToComunicate.img">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <div class="fw-bold">{{userToComunicate.id}}
+
+
+          <div id="agora_local">
+          </div>
+          <div class="remote-containers">
+            <div class="remote_calls" *ngFor="let remote of remoteCalls;" [id]="remote">
+            </div>
+          </div>
+          <button (click)="startCall()">Start Call</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

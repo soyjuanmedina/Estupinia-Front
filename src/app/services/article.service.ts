@@ -6,7 +6,6 @@ import { UtilitiesService } from "./utilities.service";
 import { Media } from "../interfaces/media";
 import { AppConstants } from '../appConstants';
 import { Observable, of } from "rxjs";
-import { ArticlePage } from "../pages/article/article.page";
 
 const USER_CONTROLLER = '/user/';
 const USER_KEY = 'auth-user';

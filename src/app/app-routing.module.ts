@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-import { ArticlePage } from './pages/article/article.page';
+import { UserComunicationPage } from './pages/user-comunication/user-comunication.page';
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
 import { ProfilePage } from './pages/profile/profile.page';
@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfilePage },
   { path: 'contact', component: ContactPage },
   { path: 'paymentgateway', component: PaymentGatewayPage },
-  { path: 'article/:id', component: ArticlePage },
+  { path: 'usertocomunicate/:id', component: UserComunicationPage },
   { path: 'confirmemail/:id', component: ConfirmemailPage }
 ];
 

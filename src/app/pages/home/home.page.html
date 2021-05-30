@@ -18,122 +18,71 @@
   </div>
 </div>
 
-<div class="text-center mt-2" *ngIf="!_userService.users">
-  <h6>Un momento, estamos buscando los usuarios más populares. ¡Te los mostraremos en un
+<div class="text-center mt-2" *ngIf="!_userService.conectedUsers">
+  <h6>Un momento, estamos buscando los usuarios conectados. ¡Te los mostraremos en un
     momento!</h6>
   <img src="./assets/img/loading-articles.gif">
 </div>
 
 
 
-<div class="text-center p-3">
+<div class="p-3">
 
   <h6 *ngIf="_userService.user">Encantados de verte de nuevo {{_userService.user.name}} ahora ya
     puedes contactar con otros usuarios para charlar de vuestros intereses comunes.
   </h6>
 
-  <h4 *ngIf="!_userService.user">Identificate o registrate para comenzar a charlar con otros
-    usuarios</h4>
+  <div class="text-center p-3">
+    <h3>¿De qué quieres charlar?</h3>
+    <select id="theme" class="btn btn-lg bg-main-color searchBox" name="searchedTheme"
+      [(ngModel)]="searchedTheme">
+      <option *ngFor="let theme of _userService.themes" [id]="theme" [ngValue]="theme">
+        {{theme.name}}
+      </option>
+    </select>
+    <span class="input-group-addon btn btn-lg bg-secondary-color"
+      (click)="getUsersByTheme(searchedTheme)">Buscar</span>
+  </div>
 
-
-
-
-</div>
-
-<div class="text-center p-3">
-  <h3>¿De qué o con quien quieres charlar hoy?</h3>
-  <input class="btn btn-lg bg-main-color mt-2" name="titulo" id="titulo" type="text"
-    placeholder="Tema o usuario" required>
-  <button class="btn btn-lg bg-secondary-color mt-2" type="submit">Buscar</button>
-</div>
-
-<hr>
-<div class="accordion mb-2" id="searchingAccordion">
-  <div class="accordion-item">
-    <div class="text-end">
-      <button class="btn btn-xs bg-secondary-color m-2" data-bs-toggle="collapse"
-        (click)="changeVisibility()" data-bs-target="#collapseOne" (click)="clearFilters()">
-        <span *ngIf="!isVisible"><i class="fas fa-search"></i> Filtrar usuarios</span><span
-          *ngIf="isVisible"><i class="fas fa-times-circle"></i> Eliminar
-          filtros
-        </span></button>
-    </div>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-      data-bs-parent="#searchingAccordion">
-      <div class="accordion-body">
-
-        <nav>
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button class="nav-link active btn btn-xs bg-secondary-color" id="nav-theme-tab"
-              data-bs-toggle="tab" data-bs-target="#nav-theme" type="button" role="tab"
-              aria-controls="nav-theme" aria-selected="true" (click)="clearFilters()">Por
-              tema</button>
-            <button class="nav-link btn btn-xs bg-secondary-color" id="nav-schedule-tab"
-              data-bs-toggle="tab" data-bs-target="#nav-schedule" type="button" role="tab"
-              aria-controls="nav-schedule" aria-selected="false" (click)="clearFilters()">Por
-              horario</button>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-theme" role="tabpanel"
-            aria-labelledby="nav-theme-tab">
-
-
-            <div class="text-end mt-3">
-              <div class="form-check form-check-inline" *ngFor="let theme of _userService.themes">
-                <input class="form-check-input" type="radio" [id]="theme" [value]="theme"
-                  [(ngModel)]="selectedTheme">
-                <label class="form-check-label" [for]="theme">{{theme}}</label>
-              </div>
-            </div>
-            <div class="text-end">
-              <button class="btn btn-xs bg-secondary-color m-2"
-                (click)="getUsersByTheme()">Filtrar</button>
-            </div>
-
-
-
-          </div>
-          <div class="tab-pane fade" id="nav-schedule" role="tabpanel"
-            aria-labelledby="nav-schedule-tab">
-            <div class="text-end mt-3">
-
-              <div class="form-check form-check-inline"
-                *ngFor="let schedule of _userService.schedules">
-                <input class="form-check-input" type="radio" [id]="schedule" [value]="schedule"
-                  [(ngModel)]="selectedSchedule">
-                <label class="form-check-label" [for]="schedule">{{schedule}}</label>
-              </div>
-            </div>
-            <div class="text-end">
-              <button class="btn btn-xs bg-secondary-color m-2"
-                (click)="getUsersByschedule()">Filtrar</button>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="nav-tag" role="tabpanel" aria-labelledby="nav-tag-tab">
-
+  <div *ngIf="_userService.conectedUsers?.length">
+    <hr>
+    <h3>Usuarios que quieren hablar ahora</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
+      [@aliasesAnimation]="_userService.conectedUsers">
+      <div class="col mb-2" *ngFor="let conectedUser of _userService.conectedUsers"
+        (click)="comunicateToUser(conectedUser)">
+        <div class="card">
+          <img [src]="conectedUser.img" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">{{conectedUser.name}}</h5>
+            Temas de interés: <span *ngFor="let theme of conectedUser.themes">{{theme.name}},
+            </span>
           </div>
         </div>
-
-
-
-
       </div>
     </div>
   </div>
-</div>
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
-  [@aliasesAnimation]="_userService.users">
-  <div class="col mb-2" *ngFor="let user of _userService.users" (click)="showUser(user)">
-    <div class="card"
-      [ngClass]="{'bg-secondary-color': _userService.user?.buyedArticles?.includes(this.user.id)}">
-      <img [src]="user.img" class="card-img-top">
-      <div class="card-body">
-        <h5 class="card-title">{{user.name}}</h5>
+
+
+
+  <div *ngIf="_userService.usersToDate?.length">
+    <hr>
+    <h3>Usuarios con los que quedar para hablar</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
+      [@aliasesAnimation]="_userService.usersToDate">
+      <div class="col mb-2" *ngFor="let userToDate of _userService.usersToDate"
+        (click)="comunicateToUser(userToDate)">
+        <div class="card">
+          <img [src]="userToDate.img" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">{{userToDate.name}}</h5>
+            Temas de interés: <span *ngFor="let theme of userToDate.themes">{{theme.name}},
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
@@ -143,24 +92,25 @@
 
 
 
-<!-- identifyModal -->
-<div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
-          opinión.</h6>
-        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-          [routerLink]="['/login']">Login</button>
-        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-          [routerLink]="['/register']">Registro</button>
-        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+  <!-- identifyModal -->
+  <div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
+            opinión.</h6>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            [routerLink]="['/login']">Login</button>
+          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+            [routerLink]="['/register']">Registro</button>
+          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
