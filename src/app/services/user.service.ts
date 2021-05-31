@@ -158,7 +158,6 @@ export class UserService {
         this.conectedUsers = response;
         this._utilitiesService.loading = false;
         if (this.user) {
-          console.log('this.user.email', this.user.email);
           this.conectedUsers = this.conectedUsers.filter((conectedUser) =>
             conectedUser.email != this.user.email
           );

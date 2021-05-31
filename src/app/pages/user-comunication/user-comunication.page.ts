@@ -6,7 +6,8 @@ import { AngularAgoraRtcService, Stream } from 'angular-agora-rtc';
 
 @Component({
   selector: 'user-comunication-page',
-  templateUrl: './user-comunication.page.html'
+  templateUrl: './user-comunication.page.html',
+  styleUrls: ['./user-comunication.page.scss'],
 })
 export class UserComunicationPage implements OnInit {
 
@@ -21,7 +22,9 @@ export class UserComunicationPage implements OnInit {
   }
 
   startCall() {
+    console.log('startCall');
     this.agoraService.client.join(null, '1000', null, (uid) => {
+      console.log('uid', uid);
       this.localStream = this.agoraService.createStream(uid, true, null, null, true, false);
       this.localStream.setVideoProfile('720p_3');
       this.subscribeToStreams();
