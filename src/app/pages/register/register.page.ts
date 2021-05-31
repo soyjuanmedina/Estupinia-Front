@@ -45,9 +45,7 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
-    console.log('resge', this.newUserForm.value);
     this._utilitiesService.clearAlerts();
-    // this._authService.register(this.newUserForm.value);
     this._utilitiesService.loading = true;
     this._authService.register(this.newUserForm.value).subscribe(
       data => {

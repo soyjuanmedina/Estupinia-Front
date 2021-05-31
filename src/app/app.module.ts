@@ -23,7 +23,7 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { ConfirmemailPage } from './pages/confirmemail/confirmemail.page';
 
 const agoraConfig: AgoraConfig = {
-  AppID: 'APP-ee3542d8f5e941b3abf7e5a2e356c4ac-HERE',
+  AppID: 'ee3542d8f5e941b3abf7e5a2e356c4ac',
 };
 
 @NgModule({
