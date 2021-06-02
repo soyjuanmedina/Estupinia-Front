@@ -53,64 +53,69 @@
         (click)="comunicateToUser(conectedUser)">
         <div class="card">
           <img [src]="conectedUser.img" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">{{conectedUser.name}}</h5>
+          <div class="card-body m-2">
+            <h5 class="card-title">{{conectedUser.name}} {{conectedUser.surname}}</h5>
             Temas de interés: <span *ngFor="let theme of conectedUser.themes">{{theme.name}},
             </span>
+            <div class="float-end">Status: <img src="assets/img/status-online.gif" width="45">
+              online
+            </div>
           </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="_userService.usersToDate?.length">
+  <hr>
+  <h3>Usuarios con los que quedar para hablar</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
+    [@aliasesAnimation]="_userService.usersToDate">
+    <div class="col mb-2" *ngFor="let userToDate of _userService.usersToDate"
+      (click)="comunicateToUser(userToDate)">
+      <div class="card">
+        <img [src]="userToDate.img" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{userToDate.name}}</h5>
+          Temas de interés: <span *ngFor="let theme of userToDate.themes">{{theme.name}},
+          </span>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
 
-  <div *ngIf="_userService.usersToDate?.length">
-    <hr>
-    <h3>Usuarios con los que quedar para hablar</h3>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
-      [@aliasesAnimation]="_userService.usersToDate">
-      <div class="col mb-2" *ngFor="let userToDate of _userService.usersToDate"
-        (click)="comunicateToUser(userToDate)">
-        <div class="card">
-          <img [src]="userToDate.img" class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">{{userToDate.name}}</h5>
-            Temas de interés: <span *ngFor="let theme of userToDate.themes">{{theme.name}},
-            </span>
-          </div>
-        </div>
+
+
+
+
+
+
+<!-- identifyModal -->
+<div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
+          opinión.</h6>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          [routerLink]="['/login']">Login</button>
+        <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
+          [routerLink]="['/register']">Registro</button>
+        <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-  <!-- identifyModal -->
-  <div class="modal fade" id="identifyModal" tabindex="-1" aria-labelledby="identifyModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="identifyModalLabel">Identificación</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-          <h6>Identificate o registrate para acceder desde un mismo lugar a todos las columnas de
-            opinión.</h6>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            [routerLink]="['/login']">Login</button>
-          <button class="btn bg-secondary-color m-2" data-bs-dismiss="modal"
-            [routerLink]="['/register']">Registro</button>
-          <button class="btn bg-secondary m-2" data-bs-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>

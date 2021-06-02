@@ -61,15 +61,18 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    console.log(1, user);
     return this.http.post(environment.baseUrl + 'user/update', user).subscribe(
       data => {
-        console.log(data);
         this.user = data as User;
+        this._utilitiesService.alertSuccess = "El usuario se ha actualizado correctamente";
+        this._utilitiesService.loading = false;
       },
       err => {
         console.log(err.error.message);
+        this._utilitiesService.alertSuccess = err.error.message;
+        this._utilitiesService.loading = false;
       }
+
     );
   }
 

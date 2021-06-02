@@ -112,7 +112,11 @@ export class HomePage implements OnInit {
   }
 
   comunicateToUser(user) {
-    this.router.navigate(['/usertocomunicate', user.id]);
+    if (this._userService.user) {
+      this.router.navigate(['/usertocomunicate', user.id]);
+    } else {
+      $('#identifyModal').modal('show');
+    }
   }
 
   getUsersByTheme(theme) {

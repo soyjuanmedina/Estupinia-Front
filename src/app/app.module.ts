@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AngularAgoraRtcModule, AgoraConfig } from 'angular-agora-rtc';
+import { NgxAgoraModule, AgoraConfig } from 'ngx-agora';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,7 +49,7 @@ const agoraConfig: AgoraConfig = {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    AngularAgoraRtcModule.forRoot(agoraConfig)
+    NgxAgoraModule.forRoot(agoraConfig)
   ],
   providers: [
     authInterceptorProviders

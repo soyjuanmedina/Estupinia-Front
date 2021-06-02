@@ -40,6 +40,7 @@ export class ProfilePage implements OnInit {
   }
 
   updateProfile() {
+    this._utilitiesService.loading = true;
     this._userService.updateUser(this.editedUser);
   }
 
