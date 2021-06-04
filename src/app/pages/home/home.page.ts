@@ -10,6 +10,7 @@ import { Theme } from '../../interfaces/theme';
 import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
+import { WebSocketService } from '../../services/webSocket.service';
 declare let $: any;
 
 @Component({
@@ -46,17 +47,41 @@ export class HomePage implements OnInit {
   searchedTheme: Theme;
   isVisible = $('#searchingAccordion').is(":visible");
 
+  greeting: any;
+  name: string;
+
   constructor(public _userService: UserService,
-    public _utilitiesService: UtilitiesService, public router: Router) {
+    public _utilitiesService: UtilitiesService, public router: Router, public _webSocketService: WebSocketService) {
     this._utilitiesService.clearAlerts();
-    // Wake Up Heroku
-    this._userService.getDBMedias();
-    if (!this._userService.conectedUsers) {
+    if (this._userService.user) {
+      this._webSocketService._connect();
       this._userService.getConectedUsers();
     }
+    // Wake Up Heroku
+    this._userService.getDBMedias();
     if (!this._userService.themes) {
       this._userService.getThemes();
     }
+  }
+
+  connect() {
+    this._webSocketService._connect();
+  }
+
+  disconnect() {
+    this._webSocketService._disconnect();
+  }
+
+  sendMessage() {
+    this._webSocketService._send(this.name);
+  }
+
+  handleMessage(message) {
+    this.greeting = message;
+  }
+
+  getConnected() {
+    this._webSocketService.getConnected();
   }
 
   changeVisibility() {
@@ -92,18 +117,7 @@ export class HomePage implements OnInit {
     } */
 
   getUsersToDate(theme) {
-    console.log("getUsersToDate");
-    this._userService.getUsersToDate(theme).subscribe(
-      data => {
-        let response = data as any;
-        this._userService.usersToDate = response;
-        this._utilitiesService.loading = false;
-      },
-      err => {
-        this._utilitiesService.alertError = "Se ha producido un error al obtener los usersToDate"
-        this._utilitiesService.loading = false;
-      }
-    );
+    this._userService.getUsersToDate(theme);
   }
 
 
@@ -130,24 +144,22 @@ export class HomePage implements OnInit {
 
   filterConectedUsersByTheme(theme) {
     this._userService.conectedUsers = [];
-    this._userService.allUsers.forEach((user) => {
-      user.themes.forEach((userTheme) => {
-        if (userTheme.id == theme.id) {
-          this._userService.conectedUsers.push(user);
-        }
+    if (this._userService.allConectedUsers) {
+      this._userService.allConectedUsers.forEach((user) => {
+        user.themes.forEach((userTheme) => {
+          if (userTheme.id == theme.id) {
+            this._userService.conectedUsers.push(user);
+          }
 
+        })
       })
-    })
 
-
-    this._userService.allUsers.filter(user => {
-      user.themes.some(conectedUsertheme => {
-        conectedUsertheme.id == theme.id
-      })
-    });
-
-    console.log(3, this._userService.conectedUsers);
-    // this._articleService.articles = this._articleService.allArticles.filter(article => article.author == this.selectedTheme);
+      this._userService.allConectedUsers.filter(user => {
+        user.themes.some(conectedUsertheme => {
+          conectedUsertheme.id == theme.id
+        })
+      });
+    }
   }
 
 

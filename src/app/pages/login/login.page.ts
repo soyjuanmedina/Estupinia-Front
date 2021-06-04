@@ -5,6 +5,7 @@ import { User } from '../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
+import { WebSocketService } from '../../services/webSocket.service';
 
 @Component({
   selector: 'login-page',
@@ -23,7 +24,7 @@ export class LoginPage implements OnInit {
   });
 
   constructor(public _authService: AuthService, public _userService: UserService,
-    public _utilitiesService: UtilitiesService, public router: Router) {
+    public _utilitiesService: UtilitiesService, public router: Router, public _webSocketService: WebSocketService) {
     this._utilitiesService.clearAlerts();
   }
 

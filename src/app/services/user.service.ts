@@ -17,42 +17,12 @@ export class UserService {
   user: User;
   conectedUsers: Array<User>;
   usersToDate: Array<User>;
+  allConectedUsers: Array<User>;
+  allUsersToDate: Array<User>;
   allUsers: Array<User>
   weekDays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
   themes;
   error: string;
-
-  demoUsers: Array<User> = [
-    {
-      email: "mail1@mail.com",
-      active: true,
-      id: 1,
-      name: "Juan",
-      surname: "Medina",
-      themes: [{
-        id: 1,
-        name: "Actualidad"
-      },
-      {
-        id: 2,
-        name: "Economía"
-      }
-      ],
-      img: "assets/img/img-profile.png"
-    },
-    {
-      email: "mail2@mail.com",
-      active: true,
-      id: 2,
-      name: "Manolo",
-      surname: "Medina",
-      themes: [{
-        id: 1,
-        name: "Actualidad"
-      },],
-      img: "assets/img/img-profile.png"
-    }
-  ]
 
   constructor(private http: HttpClient, private _utilitiesService: UtilitiesService, public router: Router) {
     if (typeof sessionStorage.getItem('estupinia-user') !== 'undefined') {
@@ -105,7 +75,7 @@ export class UserService {
       err => {
         this._utilitiesService.alertError = err.error.message;
       }
-    );;
+    );
   }
 
   confirmEmail(params) {
@@ -128,7 +98,7 @@ export class UserService {
 
   getSchedules() {
     let schedules = [];
-    this.demoUsers.forEach(user => {
+    this.allUsersToDate.forEach(user => {
       if (schedules.indexOf(user.schedule) === -1) {
         schedules.push(user.schedule)
       }
@@ -165,6 +135,8 @@ export class UserService {
             conectedUser.email != this.user.email
           );
         }
+        this.allConectedUsers = this._utilitiesService.cloneObject(this.conectedUsers);
+        console.log('this.allConectedUsers', this.allConectedUsers);
       },
       err => {
         this._utilitiesService.alertError = "Se ha producido un error al obtener los conectedUsers"
@@ -175,8 +147,24 @@ export class UserService {
 
   getUsersToDate(theme) {
     this._utilitiesService.loading = true;
-    return of(this.demoUsers);
-    // return this.http.post(environment.baseUrl + 'article/recomended', "");
+    this.http.post(environment.baseUrl + 'user/getconnected', theme).subscribe(
+      data => {
+        let response = data as any;
+        this.usersToDate = response;
+        this._utilitiesService.loading = false;
+        if (this.user) {
+          this.usersToDate = this.usersToDate.filter((userToDate) =>
+            userToDate.email != this.user.email
+          );
+        }
+        this.allUsersToDate = this._utilitiesService.cloneObject(this.conectedUsers);
+        console.log('this.allUsersToDate', this.allUsersToDate);
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los UsersToDate"
+        this._utilitiesService.loading = false;
+      }
+    );
   }
 
 }

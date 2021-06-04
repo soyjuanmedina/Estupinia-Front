@@ -6,7 +6,7 @@ declare let $: any;
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'DondeLoVeo';
+  title = 'Estupinia';
 
   ngOnInit(): void {
     $("#menu-toggle").click(function (e) {
