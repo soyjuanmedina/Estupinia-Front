@@ -2,22 +2,26 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { AppComponent } from '../app.component';
 import { Injectable } from '@angular/core';
+import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class WebSocketService {
+export class WebSocketService{
   webSocketEndPoint: string = 'http://localhost:8080/ws';
   topic: string = "/topic/greetings";
   stompClient: any;
+
+  constructor( private _userService: UserService) { }
 
   _connect() {
     console.log("Initialize WebSocket Connection");
     let ws = new SockJS(this.webSocketEndPoint);
     this.stompClient = Stomp.over(ws);
     const _this = this;
-    _this.stompClient.connect({}, function (frame) {
+    _this.stompClient.connect({'username': this._userService.user.email}, function (frame) {
       _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
         console.log("Hemos recibido algo")
         _this.onMessageReceived(sdkEvent);
