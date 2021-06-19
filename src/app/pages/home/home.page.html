@@ -68,19 +68,18 @@
   <div class="text-center p-3">
     <h3>¿De qué quieres charlar?</h3>
     <select id="theme" class="btn btn-lg bg-main-color searchBox" name="searchedTheme"
-      [(ngModel)]="searchedTheme">
+      [(ngModel)]="searchedTheme" (change)="getUsersByTheme(searchedTheme)">
       <option *ngFor="let theme of _userService.themes" [id]="theme" [ngValue]="theme">
         {{theme.name}}
       </option>
     </select>
-    <span class="input-group-addon btn btn-lg bg-secondary-color"
-      (click)="getUsersByTheme(searchedTheme)">Buscar</span>
   </div>
 
 
-  <div *ngIf="_userService.user">
+  <div *ngIf="_userService.conectedUsers?.length">
     <hr>
-    <h3>Usuarios que quieren hablar ahora</h3>
+    <h3>Usuarios que quieren hablar ahora <span *ngIf="searchedTheme"> sobre
+        {{searchedTheme.name}}</span></h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5"
       [@aliasesAnimation]="_userService.conectedUsers">
       <div class="col mb-2" *ngFor="let conectedUser of _userService.conectedUsers"
@@ -89,18 +88,25 @@
           <img [src]="conectedUser.img" class="card-img-top">
           <div class="card-body m-2">
             <h5 class="card-title">{{conectedUser.name}} {{conectedUser.surname}}</h5>
-            Temas de interés: <span *ngFor="let theme of conectedUser.themes">{{theme.name}},
-            </span>
+            <span *ngIf="!searchedTheme">Temas de interés: <span
+                *ngFor="let theme of conectedUser.themes">{{theme.name}},
+              </span></span>
             <div class="float-end">Status: <img src="assets/img/status-online.gif" width="45">
               online
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>
+
+  <div *ngIf="_userService.conectedUsers?.length == 0 && searchedTheme" class="alert alert-warning"
+    role="alert">
+    ¡Vaya! Parece que ahora mismo no hay nadie conectado que quiera charlar sobre
+    {{searchedTheme.name}}.
+    Pero no te preocupes, te avisaremos cuando se conecte alguien interesado
+  </div>
+
 </div>
 
 

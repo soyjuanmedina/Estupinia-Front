@@ -17,7 +17,6 @@ export class UserService {
   user: User;
   conectedUsers: Array<User>;
   usersToDate: Array<User>;
-  allConectedUsers: Array<User>;
   allUsersToDate: Array<User>;
   allUsers: Array<User>
   weekDays = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
@@ -135,8 +134,6 @@ export class UserService {
             conectedUser.email != this.user.email
           );
         }
-        this.allConectedUsers = this._utilitiesService.cloneObject(this.conectedUsers);
-        console.log('this.allConectedUsers', this.allConectedUsers);
       },
       err => {
         this._utilitiesService.alertError = "Se ha producido un error al obtener los conectedUsers"
@@ -162,6 +159,27 @@ export class UserService {
       },
       err => {
         this._utilitiesService.alertError = "Se ha producido un error al obtener los UsersToDate"
+        this._utilitiesService.loading = false;
+      }
+    );
+  }
+
+  getConnectedByTheme(theme) {
+    this._utilitiesService.loading = true;
+    this.http.post(environment.baseUrl + 'user/getconnectedbytheme', theme).subscribe(
+      data => {
+        let response = data as any;
+        this.conectedUsers = response;
+        this._utilitiesService.loading = false;
+        if (this.user) {
+          this.conectedUsers = this.conectedUsers.filter((conectedUser) =>
+            conectedUser.email != this.user.email
+          );
+        }
+        console.log('this.conectedUsers', this.conectedUsers);
+      },
+      err => {
+        this._utilitiesService.alertError = "Se ha producido un error al obtener los getConnectedByTheme"
         this._utilitiesService.loading = false;
       }
     );

@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { Router } from '@angular/router';
 import { UtilitiesService } from './utilities.service';
 import { environment } from "../../environments/environment";
+import { WebSocketService } from './webSocket.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +17,7 @@ const httpOptions = {
 export class AuthService {
 
   constructor(private http: HttpClient, private _userService: UserService, private router: Router,
-    public _utilitiesService: UtilitiesService) { }
+    public _utilitiesService: UtilitiesService, public _webSocketService: WebSocketService) { }
 
   /* login(credentials): Observable<any> {
     return this.http.post(AUTH_CONTROLLER + 'login', credentials, httpOptions);
@@ -27,6 +28,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this._webSocketService._disconnect();
     delete this._userService.user;
     sessionStorage.clear();
   }

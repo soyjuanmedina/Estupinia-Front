@@ -55,10 +55,8 @@ export class HomePage implements OnInit {
     this._utilitiesService.clearAlerts();
     if (this._userService.user) {
       this._webSocketService._connect();
-      this._userService.getConectedUsers();
+      delete this._userService.conectedUsers;
     }
-    // Wake Up Heroku
-    this._userService.getDBMedias();
     if (!this._userService.themes) {
       this._userService.getThemes();
     }
@@ -134,34 +132,9 @@ export class HomePage implements OnInit {
   }
 
   getUsersByTheme(theme) {
-    this.getUsersToDate(theme);
-    this.filterConectedUsersByTheme(theme);
+    this._utilitiesService.clearAlerts();
+    this._userService.getConnectedByTheme(theme);
   }
-  /* 
-    filterUsersByschedule() {
-      this._userService.users = this._userService.allUsers.filter(user => user.schedule.days.some(day => day.day == this.selectedWeekDay));
-    } */
-
-  filterConectedUsersByTheme(theme) {
-    this._userService.conectedUsers = [];
-    if (this._userService.allConectedUsers) {
-      this._userService.allConectedUsers.forEach((user) => {
-        user.themes.forEach((userTheme) => {
-          if (userTheme.id == theme.id) {
-            this._userService.conectedUsers.push(user);
-          }
-
-        })
-      })
-
-      this._userService.allConectedUsers.filter(user => {
-        user.themes.some(conectedUsertheme => {
-          conectedUsertheme.id == theme.id
-        })
-      });
-    }
-  }
-
 
   clearFilters() {
     delete this.selectedTheme;
