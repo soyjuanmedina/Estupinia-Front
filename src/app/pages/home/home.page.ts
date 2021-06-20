@@ -139,6 +139,7 @@ export class HomePage implements OnInit {
     this._webSocketService.communicationProposal.type = "answer";
     this._webSocketService.sendCommunicationProposal(this._webSocketService.communicationProposal);
     if (answer == 'yes') {
+      this._webSocketService.userToComunicate = this._webSocketService.communicationProposal.from;
       this.router.navigate(['/usertocomunicate', this._webSocketService.communicationProposal.to.id]);
     }
   }

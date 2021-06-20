@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { CommunicationProposal } from '../interfaces/communicationProposal';
 import { Router } from '@angular/router';
 import { environment } from "../../environments/environment";
+import { User } from '../interfaces/user';
 declare let $: any;
 
 
@@ -16,7 +17,8 @@ export class WebSocketService {
   webSocketEndPoint: string = environment.baseUrl + 'ws';
   topic: string = "/user/queue/reply";
   stompClient: any;
-  communicationProposal: CommunicationProposal
+  communicationProposal: CommunicationProposal;
+  userToComunicate: User;
 
   constructor(private _userService: UserService, public router: Router) { }
 
@@ -70,15 +72,9 @@ export class WebSocketService {
       if (this.communicationProposal.answer == "no") {
         $('#communicationProposalReceivedModal').modal('show');
       } else {
+        this.userToComunicate = this.communicationProposal.to;
         this.router.navigate(['/usertocomunicate', this.communicationProposal.to.id]);
       }
     }
   }
-
-  answerProposal(answer) {
-    this.communicationProposal.answer = answer;
-    this.communicationProposal.type = "answer";
-    this.stompClient.send("/app/communicationproposal", {}, JSON.stringify(this.communicationProposal));
-  }
-
 }

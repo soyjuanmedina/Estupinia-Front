@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { NgxAgoraService, Stream, AgoraClient, ClientEvent, StreamEvent } from 'ngx-agora';
+import { WebSocketService } from '../../services/webSocket.service';
 
 @Component({
   selector: 'user-comunication-page',
@@ -20,16 +21,18 @@ export class UserComunicationPage implements OnInit {
   private localStream: Stream;
   private uid: number;
 
-  constructor(private route: ActivatedRoute, private router: Router,
+  constructor(private route: ActivatedRoute, private router: Router, public _webSocketService: WebSocketService,
     private _userService: UserService, private ngxAgoraService: NgxAgoraService) {
     window.scroll(0, 0);
     this.uid = Math.floor(Math.random() * 100);
+    this.startCall();
+    console.log('_webSocketService', this._webSocketService.communicationProposal);
   }
 
   startCall() {
     // Added in this step to initialize the local A/V stream
     this.onCall = true;
-    this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+    this.localStream = this.ngxAgoraService.createStream({ streamID: 18, audio: true, video: true, screen: false });
     this.assignLocalStreamHandlers();
     this.initLocalStream();
   }
@@ -124,7 +127,7 @@ export class UserComunicationPage implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.userToComunicate = this._userService.getUserToComunicate(params['id']);
+      this.userToComunicate = this._webSocketService.userToComunicate;
       if (!this.userToComunicate) {
         this.router.navigate(['/']);
       }
@@ -135,7 +138,9 @@ export class UserComunicationPage implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.localStream.close();
+    if (this.localStream) {
+      this.localStream.close();
+    }
   }
 
 }
