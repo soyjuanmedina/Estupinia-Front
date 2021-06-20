@@ -1,10 +1,10 @@
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { AppComponent } from '../app.component';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { CommunicationProposal } from '../interfaces/communicationProposal';
 import { Router } from '@angular/router';
+import { environment } from "../../environments/environment";
 declare let $: any;
 
 
@@ -13,7 +13,7 @@ declare let $: any;
 })
 
 export class WebSocketService {
-  webSocketEndPoint: string = 'http://localhost:8080/ws';
+  webSocketEndPoint: string = environment.baseUrl + 'ws';
   topic: string = "/user/queue/reply";
   stompClient: any;
   communicationProposal: CommunicationProposal
