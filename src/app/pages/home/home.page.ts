@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Article } from '../../interfaces/article';
+import { CommunicationProposal } from '../../interfaces/communicationProposal';
 import { Media } from '../../interfaces/media';
 import { Schedule } from '../../interfaces/schedule';
 import { ScheduleDay } from '../../interfaces/scheduleDay';
 import { Theme } from '../../interfaces/theme';
+import { User } from '../../interfaces/user';
 import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
 import { UtilitiesService } from '../../services/utilities.service';
@@ -41,7 +43,7 @@ declare let $: any;
 })
 export class HomePage implements OnInit {
 
-  selectedUser: Article;
+  selectedUser: User;
   selectedWeekDay: string;
   selectedTheme: Theme;
   searchedTheme: Theme;
@@ -72,14 +74,6 @@ export class HomePage implements OnInit {
 
   sendMessage() {
     this._webSocketService._send(this.name);
-  }
-
-  handleMessage(message) {
-    this.greeting = message;
-  }
-
-  getConnected() {
-    this._webSocketService.getConnected();
   }
 
   changeVisibility() {
@@ -124,10 +118,28 @@ export class HomePage implements OnInit {
   }
 
   comunicateToUser(user) {
+    let communicationProposal: CommunicationProposal = {
+      to: user,
+      from: this._userService.user,
+      theme: this.searchedTheme,
+      type: "question"
+    };
     if (this._userService.user) {
-      this.router.navigate(['/usertocomunicate', user.id]);
+      this.selectedUser = user;
+      $('#conectingModal').modal('show');
+      this._webSocketService.sendCommunicationProposal(communicationProposal);
+      // this.router.navigate(['/usertocomunicate', user.id]);
     } else {
       $('#identifyModal').modal('show');
+    }
+  }
+
+  answerProposal(answer) {
+    this._webSocketService.communicationProposal.answer = answer;
+    this._webSocketService.communicationProposal.type = "answer";
+    this._webSocketService.sendCommunicationProposal(this._webSocketService.communicationProposal);
+    if (answer == 'yes') {
+      this.router.navigate(['/usertocomunicate', this._webSocketService.communicationProposal.to.id]);
     }
   }
 
